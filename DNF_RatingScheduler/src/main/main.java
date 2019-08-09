@@ -18,8 +18,9 @@ public class main {
 		map.put("subject", new Date().toString());
 		map.put("content", "본문테스트2");
 		
-		conn.HttpPostConnection(apiURL, map);
+//		conn.HttpPostConnection(apiURL, map);
 		
+		System.out.println(conn.HttpGetConnection("https://api.neople.co.kr/df/servers?apikey=P4GiGs1KtJyD3VoMB3jkgzDsMI4tDNGi"));
 	}
 
 }

@@ -87,26 +87,11 @@ public class httpConnection {
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
         
-        int responseCode = con.getResponseCode();
-        BufferedReader br;
-        if(responseCode==200) { // 정상 호출
-            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        } else {  // 에러 발생
-            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-        }
-        String inputLine;
-        while ((inputLine = br.readLine()) != null) {
-            response.append(inputLine);
-        }
-        br.close();
-		
-		return response;
+        return responseHttp(con);
 	}
 	
 	//post방식 rest 호출시 사용
 	public StringBuffer HttpPostConnection(String apiURL, Map<String, String> map) throws IOException {
-		StringBuffer response = new StringBuffer();
-		
 	      URL url = new URL(apiURL);
 	      HttpURLConnection con = (HttpURLConnection)url.openConnection();
 	      con.setRequestMethod("POST");
@@ -124,22 +109,28 @@ public class httpConnection {
 	      wr.flush();
 	      wr.close();
 	      
-	      int responseCode = con.getResponseCode();
-	      BufferedReader br;
-	      if(responseCode==200) { // 정상 호출
-	          br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	      } else {  // 에러 발생
-	          br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	      }
+	      return responseHttp(con);
+	}
+	
+	//서버에 요청하는 메소드
+	public StringBuffer responseHttp(HttpURLConnection con) throws IOException {
+		StringBuffer response = new StringBuffer();
+		
+	    int responseCode = con.getResponseCode();
+	    BufferedReader br;
+	    if(responseCode==200) { // 정상 호출
+	        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	    } else {  // 에러 발생
+	        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	    }
 	      
-	      String inputLine;
-	      while ((inputLine = br.readLine()) != null) {
-	          response.append(inputLine);
-	      }
-	      br.close();
-	      System.out.println("1 - " + response.toString());
-		      
-		return response;
+	    String inputLine;
+	    while ((inputLine = br.readLine()) != null) {
+	        response.append(inputLine);
+	    }
+	    br.close();
+	    
+	    return response;
 	}
 	
 	//json 파싱

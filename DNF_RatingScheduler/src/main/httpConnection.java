@@ -1,6 +1,7 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.codehaus.jackson.JsonParseException;
@@ -69,6 +71,18 @@ public class httpConnection {
         apiURL += "&client_secret=" + ClientSecretKey;
         apiURL += "&refresh_token=" + RefeshToken;
         
+        StringBuffer resultResponse = HttpGetConnection(apiURL);
+        HashMap<String, String> rs = jsonParser(resultResponse);
+        
+        //accesstoken 재발급
+        this.AccessToken = "Bearer " + rs.get("access_token");
+        
+	}
+	
+	//get방식 rest 호출시 사용
+	public StringBuffer HttpGetConnection(String apiURL) throws IOException {
+		StringBuffer response = new StringBuffer();
+
         URL url = new URL(apiURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
@@ -81,17 +95,51 @@ public class httpConnection {
             br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
         }
         String inputLine;
-        StringBuffer response = new StringBuffer();
         while ((inputLine = br.readLine()) != null) {
             response.append(inputLine);
         }
         br.close();
-        
-        HashMap<String, String> rs = jsonParser(response);
-        
-        //accesstoken 재발급
-        this.AccessToken = rs.get("access_token");
-        
+		
+		return response;
+	}
+	
+	//post방식 rest 호출시 사용
+	public StringBuffer HttpPostConnection(String apiURL, Map<String, String> map) throws IOException {
+		StringBuffer response = new StringBuffer();
+		
+	      URL url = new URL(apiURL);
+	      HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	      con.setRequestMethod("POST");
+	      con.setRequestProperty("Authorization", AccessToken);
+	      
+	      // post request
+	      // 해당 string은 UTF-8로 encode 후 MS949로 재 encode를 수행한 값
+	      String subject = URLencoder(map.get("subject"));
+	      String content = URLencoder(map.get("content"));
+	      String postParams = "subject="+subject + "&content="+ content;
+	      
+	      con.setDoOutput(true);
+	      DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	      wr.writeBytes(postParams);
+	      wr.flush();
+	      wr.close();
+	      
+	      int responseCode = con.getResponseCode();
+	      BufferedReader br;
+	      if(responseCode==200) { // 정상 호출
+	          br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	      } else {  // 에러 발생
+	          br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	      }
+	      
+	      String inputLine;
+	      while ((inputLine = br.readLine()) != null) {
+	          response.append(inputLine);
+	      }
+	      br.close();
+	      System.out.println("1 - " + response.toString());
+		      
+		return response;
 	}
 	
 	//json 파싱

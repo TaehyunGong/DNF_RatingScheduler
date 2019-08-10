@@ -1,0 +1,297 @@
+[  
+    {  
+        "itemId":"35a91a40bf6c906230b55ff5c3df7919",
+        "itemName":"천공의 유산 - 도",
+        "itemRarity":"에픽",
+        "itemType":"무기",
+        "itemTypeDetail":"도",
+        "itemAvailableLevel":95
+     },
+    {  
+       "itemId":"85edb9a78cbae43eb831ed1e1658c0d7",
+       "itemName":"천공의 유산 - 소검",
+       "itemRarity":"에픽",
+       "itemType":"무기",
+       "itemTypeDetail":"소검",
+       "itemAvailableLevel":95
+    },
+    {  
+        "itemId":"085eaddf9a40ae8959770c88cf170ce6",
+        "itemName":"천공의 유산 - 둔기",
+        "itemRarity":"에픽",
+        "itemType":"무기",
+        "itemTypeDetail":"둔기",
+        "itemAvailableLevel":95
+     },
+    {  
+       "itemId":"a0f7e5708196556425497f731411cabe",
+       "itemName":"천공의 유산 - 대검",
+       "itemRarity":"에픽",
+       "itemType":"무기",
+       "itemTypeDetail":"대검",
+       "itemAvailableLevel":95
+    },
+    {  
+      "itemId":"a0d071ddf858946a13c0cf0748c20e84",
+      "itemName":"천공의 유산 - 광검",
+      "itemRarity":"에픽",
+      "itemType":"무기",
+      "itemTypeDetail":"광검",
+      "itemAvailableLevel":95
+   },
+   {  
+    "itemId":"033b7254b85b87eac1c0ee5c640bb31c",
+    "itemName":"천공의 유산 - 너클",
+    "itemRarity":"에픽",
+    "itemType":"무기",
+    "itemTypeDetail":"너클",
+    "itemAvailableLevel":95
+ },
+  {  
+     "itemId":"2614c7a41b157c9c93062c1c28e879dc",
+     "itemName":"천공의 유산 - 건틀릿",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"건틀릿",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"984756582fc69aee21a31a0611f2b298",
+     "itemName":"천공의 유산 - 권투글러브",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"권투글러브",
+     "itemAvailableLevel":95
+  },
+  {
+    "itemId" : "58ebdaa578097f9c8270f071f5663b3d",
+    "itemName" : "천공의 유산 - 클로",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "클로",
+    "itemAvailableLevel" : 95
+  },
+  {
+    "itemId" : "1a1dc1c69a4cea7bb508eea7f5432619",
+    "itemName" : "천공의 유산 - 통파",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "통파",
+    "itemAvailableLevel" : 95
+  },
+  {  
+    "itemId":"9911b6aa04e37ff50973f4a8f0a4cf25",
+    "itemName":"천공의 유산 - 리볼버",
+    "itemRarity":"에픽",
+    "itemType":"무기",
+    "itemTypeDetail":"리볼버",
+    "itemAvailableLevel":95
+ },
+ {  
+    "itemId":"d9fd33657697cfb66661eca151d6cbc7",
+    "itemName":"천공의 유산 - 머스켓",
+    "itemRarity":"에픽",
+    "itemType":"무기",
+    "itemTypeDetail":"머스켓",
+    "itemAvailableLevel":95
+ },
+ {  
+    "itemId":"5287cc0b8c9357932e11f38c71321da7",
+    "itemName":"천공의 유산 - 보우건",
+    "itemRarity":"에픽",
+    "itemType":"무기",
+    "itemTypeDetail":"보우건",
+    "itemAvailableLevel":95
+ },
+ {  
+    "itemId":"c4d7a49b78e89bba5f56e69918e3c650",
+    "itemName":"천공의 유산 - 자동권총",
+    "itemRarity":"에픽",
+    "itemType":"무기",
+    "itemTypeDetail":"자동권총",
+    "itemAvailableLevel":95
+ },
+ {
+    "itemId" : "96aa5076b55f4060396f79e42ed86eed",
+    "itemName" : "천공의 유산 - 핸드캐넌",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "핸드캐넌",
+    "itemAvailableLevel" : 95
+  },
+  {  
+     "itemId":"1454e5c0c28ea25df8bf413b48755e93",
+     "itemName":"천공의 유산 - 로드",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"로드",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"556382e8d0ba2a17b58bfe65bc91e147",
+     "itemName":"천공의 유산 - 봉",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"봉",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"a1cbc035769e52598d91050a971ace33",
+     "itemName":"천공의 유산 - 빗자루",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"빗자루",
+     "itemAvailableLevel":95
+  }, 
+  {  
+     "itemId":"f6f314ea45bf0b1293eda8c3ccfbf668",
+     "itemName":"천공의 유산 - 스태프",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"스탭",
+     "itemAvailableLevel":95
+  },
+  {
+    "itemId" : "e2b048006bbc7ec35af3920f58fb831d",
+    "itemName" : "천공의 유산 - 창",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "창",
+    "itemAvailableLevel" : 95
+  },
+  {  
+     "itemId":"a3334573dbf1e5fdc19305a8e68e9aae",
+     "itemName":"천공의 유산 - 낫",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"낫",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"7fba016fcc7ecbb5053b07ece9ca019f",
+     "itemName":"천공의 유산 - 배틀액스",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"베틀액스",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"d5bd63285c664e03bf742a61f5caff70",
+     "itemName":"천공의 유산 - 십자가",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"십자가",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"34e1ee336457fe68a840b25b4d57e9b3",
+     "itemName":"천공의 유산 - 염주",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"염주",
+     "itemAvailableLevel":95
+  },
+  {
+    "itemId" : "2e4a8dcdbe57f02c20639125fffe1958",
+    "itemName" : "천공의 유산 - 토템",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "토템",
+    "itemAvailableLevel" : 95
+  },
+  {  
+     "itemId":"31e9b9ee64fa3fe64eaf39cc2c519d84",
+     "itemName":"천공의 유산 - 단검",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"단검",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"93b220ecb9e5989e731a143ed8dac138",
+     "itemName":"천공의 유산 - 쌍검",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"쌍검",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"b4b1f38247235553c1f24fba98dbdf48",
+     "itemName":"천공의 유산 - 완드",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"완드",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"252283ae72689e67c46786977af5aee4",
+     "itemName":"천공의 유산 - 차크라 웨펀",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"차크라 웨펀",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"6f44361b7fb97981808058fa657eb4fe",
+     "itemName":"천공의 유산 - 광창",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"광창",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"09ba3709a6553def011badc2b8954475",
+     "itemName":"천공의 유산 - 미늘창",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"미늘창",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"39b0a88bd32f498f08f9509586dd145e",
+     "itemName":"천공의 유산 - 장창",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"장창",
+     "itemAvailableLevel":95
+  },
+  {
+    "itemId" : "0fe88d2363d7ccb1acb1f48889f8ade6",
+    "itemName" : "천공의 유산 - 투창",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "투창",
+    "itemAvailableLevel" : 95
+  },
+  {  
+     "itemId":"49c481a41132572c61eb1997e4feb3ab",
+     "itemName":"천공의 유산 - 소태도",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"소태도",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"a5ee4b6ad6f6ac91ad48d125b715d842",
+     "itemName":"천공의 유산 - 장도",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"장도",
+     "itemAvailableLevel":95
+  },
+  {  
+     "itemId":"7fffca4f90b559ddc8bb09b8e853d50e",
+     "itemName":"천공의 유산 - 중검",
+     "itemRarity":"에픽",
+     "itemType":"무기",
+     "itemTypeDetail":"중검",
+     "itemAvailableLevel":95
+  },{
+    "itemId" : "de7e75e712ca8a2201692d6f4e7e3b6f",
+    "itemName" : "천공의 유산 - 코어블레이드",
+    "itemRarity" : "에픽",
+    "itemType" : "무기",
+    "itemTypeDetail" : "코어블레이드",
+    "itemAvailableLevel" : 95
+  } 
+]

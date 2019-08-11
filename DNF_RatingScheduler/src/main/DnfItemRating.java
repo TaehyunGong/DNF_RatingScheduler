@@ -3,27 +3,51 @@ package main;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 public class DnfItemRating {
 
-	public void getEquipment() throws JsonGenerationException, JsonMappingException, IOException{
+	//resources/DNF_Equipment.json 에서 모든 json을 가져와 파싱한다.
+	public List<Equipment> getEquipment() throws JsonGenerationException, JsonMappingException, IOException{
+		List<Equipment> equipmentList;
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
-		InputStream input = null ; 
-		input = new FileInputStream("resources/DNF_Equipment.json");
-		Equipment[] myObjects = mapper.readValue(input, Equipment[].class);
-		input.close();
+		InputStream input = null ;
 		
-		for(Equipment eq : myObjects){
-			System.out.println(eq);
+		input = new FileInputStream("resources/DNF_Equipment.json");
+	    equipmentList = mapper.readValue(input, new TypeReference<List<Equipment>>(){});
+	    
+	    input.close();
+	    
+	    return equipmentList;
+	}
+	
+	//dnf api요청으로 현재날짜 등급가져와서 값 삽입 후 반환
+	public List<Equipment> ratingItem(List<Equipment> equipList, String apikey) throws IOException{
+		
+		httpConnection conn = httpConnection.getInstance();
+		ObjectMapper objmap = new ObjectMapper();
+		
+		String apiurl;
+		
+		for(Equipment equip : equipList){
+			
+			apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
+			
+			Equipment eq = objmap.readValue(conn.HttpGetConnection(apiurl).toString(), Equipment.class);
+			equip.setItemGradeName(eq.getItemGradeName());
+			equip.setItemGradeValue(eq.getItemGradeValue());
+			equip.setItemStatus(eq.getItemStatus());
+		
 		}
 		
-//	    List<Equipment> myObjects2 = mapper.readValue("resources/DNF_Equipment.json", new TypeReference<List<Equipment>>(){});
-	    
+		return equipList;
 	}
+	
 }

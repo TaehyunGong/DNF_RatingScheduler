@@ -53,12 +53,11 @@ public class propertyGetAPIKEY {
 		keyBox = new HashMap<String, String>();
 		
 		for(Entry<Object, Object> val : property.entrySet()) {
-			System.out.println("getBox Insert - " + val.getKey() + " - " + val.getValue());
 			keyBox.put((String)val.getKey(), (String)val.getValue());
 		}
 		
 	}
-
+	
 	public Properties getProperty() {
 		return property;
 	}

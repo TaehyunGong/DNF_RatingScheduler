@@ -1,7 +1,10 @@
 package main;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -11,20 +14,26 @@ public class main {
 
 	public static void main(String[] args) throws IOException {
 		
-//		httpConnection conn = httpConnection.getInstance(); 
-//		propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
-//		getkey.initProperty("resources/APIKEY.properties");		
-//
-//		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("subject", new Date().toString());
-//		map.put("content", "<h1 color='red'>html 태그 먹히냐?</h1>");
-//		
-//		conn.HttpPostConnection(apiURL, new main().RequestAccessToken(),map);		
-//		System.out.println(conn.HttpGetConnection("https://api.neople.co.kr/df/servers?apikey=P4GiGs1KtJyD3VoMB3jkgzDsMI4tDNGi"));
-				
+		httpConnection conn = httpConnection.getInstance(); 
+		propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
+		getkey.initProperty("resources/APIKEY.properties");		
+
+		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";
+		Map<String, String> map = new HashMap<String, String>();
+		
+		String content = "";
+		
 		DnfItemRating dnf = new DnfItemRating();
-		dnf.getEquipment();
+		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get(getkey.DNF_APIKEY));
+		for(Equipment equip : list){
+			content += "<p> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"' alt='" + equip.getItemName() + "'> - " + equip.toString() + " </p>";
+		}
+		System.out.println(content);
+		
+		map.put("subject", new Date().toString());
+		map.put("content", content);
+		conn.HttpPostConnection(apiURL, new main().RequestAccessToken(),map);		
+		
 	}
 
 	

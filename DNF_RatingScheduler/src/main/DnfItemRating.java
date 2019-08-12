@@ -3,7 +3,9 @@ package main;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -48,6 +50,17 @@ public class DnfItemRating {
 		}
 		
 		return equipList;
+	}
+	
+	// 세트 명 가져오기
+	public Set<String> itemSetList(List<Equipment> list){
+		Set<String> set = new HashSet<String>();
+		for(Equipment equip : list) {
+			set.add(equip.getSetItemName());
+		}
+		set.remove(null);
+		
+		return set;
 	}
 	
 }

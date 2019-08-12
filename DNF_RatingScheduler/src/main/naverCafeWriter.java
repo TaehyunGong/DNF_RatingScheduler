@@ -53,24 +53,32 @@ public class naverCafeWriter {
 	
 	// 카페 본문 내용
 	public String contentHtmlMake(DnfItemRating dnf) throws IOException {
-		StringBuffer sb = new StringBuffer("<table>");
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<table style='width:100%'>");
+		
 		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get(getkey.DNF_APIKEY));
 		
+		int count= 0;
+		String checkSetName = list.get(0).getSetItemName();	// 첫번째 세트명
+		
 		for(Equipment equip : list){
-			
-			if(equip.getItemType().equals("방어구")) {
-				
+			if(checkSetName.equals(equip.getSetItemName())) {
+				if(count == 0) {
+					sb.append("<tr class='setline'><td>" + equip.getSetItemName() + "</td> </tr>");
+				}
+			}else if(equip.getSetItemName() != null) {
 			}
+			checkSetName = equip.getSetItemName();	// 세트명 
 			
 			sb.append("<tr>");
+			
 			sb.append("<td> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"' alt='" + equip.getItemName() + "'> </td>");
 			sb.append("<td> " + equip.getItemName() +" </td>");
 			sb.append("<td> " + nvlString(equip.getSetItemName()) +" </td>");
-			sb.append("</tr>");
+			sb.append("<td> " + equip.getItemGradeName() + " : (" + equip.getItemGradeValue() + "%) </td>");
+			sb.append("<td> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
 			
-			sb.append("<tr>");
-			sb.append("<td> " + htmlTagInsertList(equip.getMaxItemStatus()) +" </td>");
-			sb.append("<td> " + htmlTagInsertList(equip.getItemStatus()) +" </td>");
 			sb.append("</tr>");
 			
 		}
@@ -79,12 +87,14 @@ public class naverCafeWriter {
 		return sb.toString();
 	}
 	
-	public String htmlTagInsertList(List<itemStatus> list) {
+	public String htmlTagInsertList(List<itemStatus> maxList, List<itemStatus> list) {
 		String content = "";
 		
-		for(itemStatus status : list) {
+		for(int i=0; i<list.size(); i++) {
+			itemStatus status = list.get(i);
+			
 			if(containList.contains(status.getName())) {
-				content += status.getName() + "<br>" + status.getValue() + "<br>";
+				content += status.getName() + " : " + status.getValue() + "(+" + (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")<br>";
 			}
 		}
 		

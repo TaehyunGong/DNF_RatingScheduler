@@ -24,10 +24,10 @@ public class naverCafeWriter {
 		containList.add("모든 속성 강화");
 		containList.add("물리 방어력");
 		containList.add("마법 방어력");
-		containList.add("화속성 강화");
-		containList.add("수속성 강화");
-		containList.add("명속성 강화");
-		containList.add("암속성 강화");
+		containList.add("화속성강화");
+		containList.add("수속성강화");
+		containList.add("명속성강화");
+		containList.add("암속성강화");
 		containList.add("물리 공격력");
 		containList.add("마법 공격력");
 		containList.add("독립 공격력");
@@ -55,29 +55,23 @@ public class naverCafeWriter {
 	public String contentHtmlMake(DnfItemRating dnf) throws IOException {
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("<table style='width:100%'>");
-		
+		sb.append("<table style='width:100%;'>");
 		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get(getkey.DNF_APIKEY));
 		
-		int count= 0;
-		String checkSetName = list.get(0).getSetItemName();	// 첫번째 세트명
+		String checkSetName = "";	// 첫번째 세트명
 		
 		for(Equipment equip : list){
-			if(checkSetName.equals(equip.getSetItemName())) {
-				if(count == 0) {
-					sb.append("<tr class='setline'><td>" + equip.getSetItemName() + "</td> </tr>");
-				}
-			}else if(equip.getSetItemName() != null) {
+			if(!checkSetName.equals(nvlString(equip.getSetItemName(), "천공의 유산"))) {
+				sb.append("<tr><td colspan='4' style='font-size: 20px; font-weight: bold;'>" + nvlString(equip.getSetItemName(), "천공의 유산") + "</td> </tr>");
 			}
-			checkSetName = equip.getSetItemName();	// 세트명 
+			checkSetName = nvlString(equip.getSetItemName(), "천공의 유산");	// 세트명 
 			
 			sb.append("<tr>");
 			
-			sb.append("<td> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"' alt='" + equip.getItemName() + "'> </td>");
-			sb.append("<td> " + equip.getItemName() +" </td>");
-			sb.append("<td> " + nvlString(equip.getSetItemName()) +" </td>");
-			sb.append("<td> " + equip.getItemGradeName() + " : (" + equip.getItemGradeValue() + "%) </td>");
-			sb.append("<td> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
+			sb.append("<td width='10%'> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"'> </td>");
+			sb.append("<td width='25%'> " + equip.getItemName() +" </td>");
+			sb.append("<td width='15%'> " + equip.getItemGradeName() + " : (" + equip.getItemGradeValue() + "%) </td>");
+			sb.append("<td width='50%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
 			
 			sb.append("</tr>");
 			
@@ -87,6 +81,7 @@ public class naverCafeWriter {
 		return sb.toString();
 	}
 	
+	//수치값과 차이점
 	public String htmlTagInsertList(List<itemStatus> maxList, List<itemStatus> list) {
 		String content = "";
 		
@@ -94,16 +89,25 @@ public class naverCafeWriter {
 			itemStatus status = list.get(i);
 			
 			if(containList.contains(status.getName())) {
-				content += status.getName() + " : " + status.getValue() + "(+" + (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")<br>";
+				content += status.getName() + " : " + status.getValue() + "<b style='color:red;'>(+" + 
+						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</b> <br>";
 			}
 		}
 		
 		return content;
 	}
 	
+	//nvl('a')
 	public String nvlString(String str) {
 		if(str == null)
 			str = "";
+		return str;
+	}
+	
+	//nvl('a', 'b')
+	public String nvlString(String str, String replace) {
+		if(str == null)
+			str = replace;
 		return str;
 	}
 	

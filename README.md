@@ -12,6 +12,18 @@ Server OS : Centos7.3
 ## 개발 기간
 20190809 ~ 20190813
 
+## 시스템 서버 환경
+
+shell script 생성
+<code>
+  java -jar /app/DNF_RatingScheduler.jar >> /app/javaLogs.log
+</code>
+
+crontab set 매일 00시마다 실행
+<code>
+  0 0 * * * sh /app/dnf_shellscript.sh
+</code>
+
 ## 기타
 현재 서비스 서버가 월 26,000원인데 현재 10만 크레딧(10/31까지)으로 간신히 버티고있다.
 만약 반응이 좋다면 다른 무료 서버로 이관하여 이 서비스를 연장할것 이다.

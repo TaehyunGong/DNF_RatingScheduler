@@ -42,6 +42,7 @@ public class naverCafeWriter {
 		getkey.initProperty("resources/APIKEY.properties");
 		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";
+//		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 등급 ");
 		
@@ -106,8 +107,8 @@ public class naverCafeWriter {
 			itemStatus status = list.get(i);
 			
 			if(containList.contains(status.getName())) {
-				content += status.getName() + " : " + status.getValue() + "<b style='color:red;'>(+" + 
-						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</b> <br>";
+				content += status.getName() + " : " + status.getValue() + "<font style='color:#ff0000; font-weight: bold;'>(+" + 
+						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</font> <br>";
 			}
 		}
 		

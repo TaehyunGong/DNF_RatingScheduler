@@ -35,11 +35,11 @@ crontab set 매일 00시마다 실행
 
 **4. UI :** 웹가 앱에서 조회시 서로 style 적용 방법이 달랐다. 예)간단한 글자 색입힐시 앱에서는 <code><font style='color:red;'></code> 로 해야지만 색이 입힌다. 글자만 봐도 직업 하나하나 글써보고 코드분석하여 해야한다; 사실상 포기. 시간이 너무 많이걸린다. 최대한 간략 간소하게 다루었다.
   
-5.
 
 ## 기타
 현재 서비스 서버가 월 26,000원인데 현재 10만 크레딧(10/31까지)으로 간신히 버티고있다.
-만약 반응이 좋다면 다른 무료 서버로 이관하여 이 서비스를 연장할것 이다.
+더이상의 **추가 작업**을 없을 것이며, 간간히 오류정도만 잡아줄 것이다.
+만약 반응이 좋다면 다른 무료 서버로 이관하여 이 서비스만 연장할것 이다.
 
 ## 스크린샷
 https://blogfiles.pstatic.net/MjAxOTA4MTNfNjcg/MDAxNTY1NjY0MDk2NTM4.OcHwtEwh0SE7hXkYQ7AZzdvv_Tbp2v9gjiITyzOpzIUg.Mym9XrqqJfI_4WLpWEaN03eH_JYfphousi8Y-sS4wFog.PNG.tony950620/image.png

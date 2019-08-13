@@ -10,12 +10,6 @@ import java.util.Properties;
 
 public class propertyGetAPIKEY {
 
-	public static String CLIENT_ID = "ClientId";
-	public static String CLIENT_SECRETKEY = "ClientSecretKey";
-	public static String DNF_APIKEY = "DNFApiKey";
-	public static String REFESH_TOKEN = "RefeshToken";
-	public static String ACCESS_TOKEN = "AccessToken";
-	
 	private Properties property ;
 	private Map<String, String> keyBox;
 	

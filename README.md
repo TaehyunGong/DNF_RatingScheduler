@@ -1,5 +1,6 @@
 ## 개요
-DNF의 테이베르스 아이템 등급을 <https://developers.neople.co.kr/>에서 호출 후 네이버 던전앤 파이터 공식 카페에 게시
+DNF의 테이베르스 아이템 등급을 <https://developers.neople.co.kr/>에서 호출 후 
+네이버 던전앤 파이터 공식 카페에 게시(해당 카페 조회시 가입이 필요) <https://cafe.naver.com/dfither/20183510>
 
 ## 개발 환경
 Language : open JDK 1.8

@@ -47,7 +47,7 @@ public class naverCafeWriter {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
 		
 		DnfItemRating dnf = new DnfItemRating();
-		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get(getkey.DNF_APIKEY));
+		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
 		
 		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + requestItemAverageRating(list) + "%)";	//글 제목
 		String content = contentHtmlMake(dnf, list);	//글 본문
@@ -137,9 +137,9 @@ public class naverCafeWriter {
 		
         String apiURL = "https://nid.naver.com/oauth2.0/token?";
         apiURL += "grant_type=refresh_token";
-        apiURL += "&client_id=" + getkey.getKeyBox().get(getkey.CLIENT_ID);
-        apiURL += "&client_secret=" + getkey.getKeyBox().get(getkey.CLIENT_SECRETKEY);
-        apiURL += "&refresh_token=" + getkey.getKeyBox().get(getkey.REFESH_TOKEN);
+        apiURL += "&client_id=" + getkey.getKeyBox().get("ClientId");
+        apiURL += "&client_secret=" + getkey.getKeyBox().get("ClientSecretKey");
+        apiURL += "&refresh_token=" + getkey.getKeyBox().get("RefeshToken");
         
         StringBuffer resultResponse = conn.HttpGetConnection(apiURL);
         HashMap<String, String> rs = new ObjectMapper().readValue(resultResponse.toString(), HashMap.class);

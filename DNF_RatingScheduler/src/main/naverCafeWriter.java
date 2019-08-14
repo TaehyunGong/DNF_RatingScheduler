@@ -39,12 +39,12 @@ public class naverCafeWriter {
 	
 	public void cafeWrtier() throws IOException {
 		//apikey를 가져옴
-//		getkey.initProperty("resources/APIKEY.properties");
-		getkey.initProperty("/app/DNF_RatingScheduler/resources/APIKEY.properties");
+		getkey.initProperty(main.path + "APIKEY.properties");
 		
-		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";
+		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
+//		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 등급 ");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
 		
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get(getkey.DNF_APIKEY));
@@ -55,6 +55,8 @@ public class naverCafeWriter {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);
 		map.put("content", content);
+		
+		System.out.println(subject);
 		
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
 	}
@@ -107,8 +109,8 @@ public class naverCafeWriter {
 			itemStatus status = list.get(i);
 			
 			if(containList.contains(status.getName())) {
-				content += status.getName() + " : " + status.getValue() + "<b style='color:red;'>(+" + 
-						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</b> <br>";
+				content += status.getName() + " : " + status.getValue() + "<font style='color:#ff0000; font-weight: bold;'>(+" + 
+						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</font> <br>";
 			}
 		}
 		

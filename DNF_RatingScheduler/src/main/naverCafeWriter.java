@@ -39,7 +39,8 @@ public class naverCafeWriter {
 	
 	public void cafeWrtier() throws IOException {
 		//apikey를 가져옴
-		getkey.initProperty("resources/APIKEY.properties");
+//		getkey.initProperty("resources/APIKEY.properties");
+		getkey.initProperty("/app/DNF_RatingScheduler/resources/APIKEY.properties");
 		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";
 		

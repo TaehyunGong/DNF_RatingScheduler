@@ -49,7 +49,7 @@ public class naverCafeWriter {
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
 		
-		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + requestItemAverageRating(list) + "%)";	//글 제목
+		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + getItemMaxRating(list) + "%)";	//글 제목
 		String content = contentHtmlMake(dnf, list);	//글 본문
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -80,8 +80,8 @@ public class naverCafeWriter {
 			
 			sb.append("<td width='8%'> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"'> </td>");
 			sb.append("<td width='25%'> " + equip.getItemName() +" </td>");
-			sb.append("<td width='20%'> " + equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%) </td>");
-			sb.append("<td width='48%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
+			sb.append("<td width='25%'> " + equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%) </td>");
+			sb.append("<td width='43%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
 			
 			sb.append("</tr>");
 			
@@ -91,14 +91,15 @@ public class naverCafeWriter {
 		return sb.toString();
 	}
 	
-	//아이템 평균 등급
-	public int requestItemAverageRating(List<Equipment> list){
-		int sum = 0;
+	//아이템 가장 높은 등급
+	public int getItemMaxRating(List<Equipment> list){
+		int max = 0;
 		
 		for(Equipment equip : list)
-			sum += Integer.parseInt(equip.getItemGradeValue());
+			if(Integer.parseInt(equip.getItemGradeValue()) > max)
+				max = Integer.parseInt(equip.getItemGradeValue());
 		
-		return sum / list.size();
+		return max;
 	}
 	
 	//수치값과 차이점

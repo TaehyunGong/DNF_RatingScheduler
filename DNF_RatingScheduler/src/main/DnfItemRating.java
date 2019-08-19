@@ -12,6 +12,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import vo.Equipment;
+
 public class DnfItemRating {
 
 	//resources/DNF_Equipment.json 에서 모든 json을 가져와 파싱한다.

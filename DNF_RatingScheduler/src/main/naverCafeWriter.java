@@ -10,7 +10,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import main.Equipment.itemStatus;
+import vo.Equipment;
+import vo.ItemStatus;
 
 public class naverCafeWriter {
 
@@ -103,11 +104,11 @@ public class naverCafeWriter {
 	}
 	
 	//수치값과 차이점
-	public String htmlTagInsertList(List<itemStatus> maxList, List<itemStatus> list) {
+	public String htmlTagInsertList(List<ItemStatus> maxList, List<ItemStatus> list) {
 		String content = "";
 		
 		for(int i=0; i<list.size(); i++) {
-			itemStatus status = list.get(i);
+			ItemStatus status = list.get(i);
 			
 			if(containList.contains(status.getName())) {
 				content += status.getName() + " : " + status.getValue() + "<font style='color:#ff0000; font-weight: bold;'>(+" + 

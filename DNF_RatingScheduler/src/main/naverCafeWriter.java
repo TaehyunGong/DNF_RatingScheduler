@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +54,15 @@ public class naverCafeWriter {
 		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + getItemMaxRating(list) + "%)";	//글 제목
 		String content = contentHtmlMake(dnf, list);	//글 본문
 		
+		//테스트 테이블 추가
+		content += "<br><br><br>";
+		content += listCalendar(null);
+		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);
 		map.put("content", content);
 		
 		System.out.println(subject);
-		
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
 	}
 	
@@ -131,6 +135,38 @@ public class naverCafeWriter {
 		if(str == null)
 			str = replace;
 		return str;
+	}
+	
+	public String listCalendar(List list) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(cal.DAY_OF_MONTH, 1);
+		int maxDay = cal.getActualMaximum(cal.DAY_OF_MONTH);
+		int startWeek = cal.get(cal.DAY_OF_WEEK);
+
+		StringBuffer html = new StringBuffer();
+		html.append("<table border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5'>");
+		html.append("<tbody>");
+		html.append("<tr bgcolor='#FFFFFF'>");
+		
+		for(int i=1; i<maxDay+startWeek; i++) {
+			if(startWeek > i){
+				html.append("<td width='84px'></td>");
+			}else {
+				html.append("<td style='font-size:9pt;font-family:2820189_9;' width='84px'>" + (i+1-startWeek) + "</td>");
+			}
+			
+			if(i%7==0) {
+				html.append("</tr>");
+				html.append("<tr bgcolor='#FFFFFF'>");
+			}
+		}
+		html.append("</tr>");
+		
+		html.append("</tbody>");
+		html.append("</table>");
+		
+		return html.toString();
 	}
 	
 	// Naver access 토큰 발급

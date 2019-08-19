@@ -9,6 +9,7 @@ public class main {
 	public static void main(String[] args) throws IOException {
 		naverCafeWriter ncw = new naverCafeWriter();
 		ncw.cafeWrtier();
+		
 	}
 
 }

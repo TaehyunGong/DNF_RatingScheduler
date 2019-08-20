@@ -68,7 +68,6 @@ public class DnfItemRatingDao {
 			e.printStackTrace();
 		}finally {
 			ps.close();
-			conn.close();
 		}
 		
 		return result;
@@ -110,7 +109,6 @@ public class DnfItemRatingDao {
 			e.printStackTrace();
 		}finally {
 			ps.close();
-			conn.close();
 		}
 		
 		return result;

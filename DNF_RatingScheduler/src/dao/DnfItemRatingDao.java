@@ -39,7 +39,7 @@ public class DnfItemRatingDao {
 		List<String> value = new ArrayList<String>();
 		
 		for(Equipment equip : list) {
-			for(ItemStatus stat : equip.getMaxItemStatus()) {
+			for(ItemStatus stat : equip.getItemStatus()) {
 				itemId.add(equip.getItemId());
 				name.add(stat.getName());
 				value.add(stat.getValue());
@@ -51,7 +51,7 @@ public class DnfItemRatingDao {
 		StringBuffer sql = new StringBuffer("INSERT INTO ItemStatus VALUES(" + SYSDATE + ", ?, ?, ?, " + SYSDATE + " )");
 		
 		for(int n=0; n<itemId.size()-1; n++)
-			sql.append(", (?, ?, ?, ?, " + SYSDATE + " )");
+			sql.append(", (" + SYSDATE + ", ?, ?, ?, " + SYSDATE + " )");
 		
 		try {
 			ps = conn.prepareStatement(sql.toString());

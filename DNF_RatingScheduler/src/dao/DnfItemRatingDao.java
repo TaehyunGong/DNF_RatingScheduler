@@ -71,6 +71,47 @@ public class DnfItemRatingDao {
 			conn.close();
 		}
 		
+		return result;
+	}
+	
+	
+	/**
+	 * @param conn
+	 * @param list
+	 * @return 0 or 1
+	 * @throws SQLException
+	 * @description 현재 날짜의 등급(상급 70%)을 insert 
+	 */
+	public int insertTodayGrade(Connection conn, List<Equipment> list) throws SQLException {
+		
+		int result = 0;
+		PreparedStatement ps = null;
+		StringBuffer sql = new StringBuffer("INSERT INTO ItemGrade VALUES(" + SYSDATE + ", ?, ?, ?)");
+		Equipment equip =null;
+		
+		for(int n=0; n<list.size()-1; n++)
+			sql.append(", (" + SYSDATE + ", ?, ?, ?)");
+		
+		try {
+			ps = conn.prepareStatement(sql.toString());
+			System.out.println("그레이드 prepared 생성 : " + ps.isClosed());
+			for(int i=0; i<list.size(); i++) {
+				equip = list.get(i);
+				
+				ps.setString(1+(i*3), equip.getItemId());
+				ps.setString(2+(i*3), equip.getItemGradeName());
+				ps.setString(3+(i*3), equip.getItemGradeValue());
+			}
+			
+			System.out.println("그레이드 prepared 생성 후 : " + ps.isClosed());
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			ps.close();
+			conn.close();
+		}
 		
 		return result;
 	}

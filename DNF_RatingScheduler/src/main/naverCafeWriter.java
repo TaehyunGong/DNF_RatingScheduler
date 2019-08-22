@@ -41,7 +41,7 @@ public class naverCafeWriter {
 	
 	public void cafeWrtier() throws IOException {
 		//apikey를 가져옴
-		getkey.initProperty(main.path + "APIKEY.properties");
+//		getkey.initProperty(main.path + "APIKEY.properties");
 		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
 //		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카

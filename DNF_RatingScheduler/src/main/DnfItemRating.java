@@ -30,7 +30,7 @@ public class DnfItemRating {
 		
 		InputStream input = null ;
 		
-		input = new FileInputStream(main.path + "DNF_Equipment.json");
+		input = new FileInputStream("/resources/DNF_Equipment.json");
 		
 	    equipmentList = mapper.readValue(input, new TypeReference<List<Equipment>>(){});
 	    

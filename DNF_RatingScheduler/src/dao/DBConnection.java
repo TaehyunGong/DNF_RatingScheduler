@@ -26,10 +26,12 @@ public class DBConnection {
 
 	private Connection initConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.mariadb.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/DNF_RatingScheduler","root","123");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/DNF_RatingScheduler","root","123");
+		conn.setAutoCommit(false);
+		return conn;
 	}
 
-	public Connection getConnection() {
+	public Connection getConnection() throws SQLException {
 		return connection;
 	}
 	

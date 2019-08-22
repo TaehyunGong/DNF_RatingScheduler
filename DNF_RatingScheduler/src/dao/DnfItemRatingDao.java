@@ -64,8 +64,8 @@ public class DnfItemRatingDao {
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw e;
 		}finally {
 			ps.close();
 		}
@@ -93,7 +93,6 @@ public class DnfItemRatingDao {
 		
 		try {
 			ps = conn.prepareStatement(sql.toString());
-			System.out.println("그레이드 prepared 생성 : " + ps.isClosed());
 			for(int i=0; i<list.size(); i++) {
 				equip = list.get(i);
 				
@@ -102,11 +101,10 @@ public class DnfItemRatingDao {
 				ps.setString(3+(i*3), equip.getItemGradeValue());
 			}
 			
-			System.out.println("그레이드 prepared 생성 후 : " + ps.isClosed());
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw e;
 		}finally {
 			ps.close();
 		}

@@ -35,8 +35,9 @@ public class Process {
 		List<Equipment> equipList = dao.selectAllEquipmentList(dbConn.getConnection());
 		
 		// restAPI의 호출로 오늘날짜 데이터를 equipList (itemStatus, ItemGrade)에 삽입함
-		dnf.ratingItem(equipList, getkey.getKeyBox().get("DNFApiKey"));
+		equipList = dnf.ratingItem(equipList, getkey.getKeyBox().get("DNFApiKey"));
 		
+		//DB에 ItemGrade 및 ItemStatus에 오늘날 값을 insert한다.
 		boolean is = insertToday(dbConn.getConnection(), equipList);
 		
 		System.out.println("체크여부 : " + is);

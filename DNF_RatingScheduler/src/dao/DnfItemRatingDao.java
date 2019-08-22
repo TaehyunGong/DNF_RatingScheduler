@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import vo.Equipment;
 import vo.ItemStatus;
@@ -252,18 +254,24 @@ public class DnfItemRatingDao {
 	public List<Equipment> selectAllEquipmentList(Connection conn) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM Equipment ORDER BY printOrder";
+//		String sql = "SELECT * FROM Equipment ORDER BY printOrder";
+		String sql = "SELECT A.*, B.name, B.value FROM Equipment A JOIN MaxItemStatus B ON A.itemId = B.itemId ORDER BY printOrder";
 		
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
-		Equipment equip = null;
+		Equipment equip = new Equipment();
+		ArrayList<ItemStatus> status = new ArrayList<ItemStatus>(); 
+		ItemStatus stat = null;
+		
+		Map<String, Equipment> equipMap = new HashMap<String, Equipment>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				equip = new Equipment();
 				
+				equip = new Equipment();
+				//항상 이전 리스트의 장비로 덮어씌운다.
 				equip.setItemId(rs.getString("itemId"));
 				equip.setItemName(rs.getString("itemName"));
 				equip.setItemRarity(rs.getString("itemRarity"));
@@ -277,8 +285,29 @@ public class DnfItemRatingDao {
 				equip.setSetItemId(rs.getString("setItemId"));
 				equip.setSetItemName(rs.getString("setItemName"));
 				
-				list.add(equip);
+				equipMap.put(equip.getItemId(), equip);
+				
+				stat = new ItemStatus();
+				stat.setItemId(rs.getString("itemId"));
+				stat.setName(rs.getString("name"));
+				stat.setValue(rs.getString("value"));
+				status.add(stat);
 			}
+			
+			list = new ArrayList<Equipment>(equipMap.values());
+			ArrayList<ItemStatus> statusList = null;
+			
+			for(Equipment eq : list) {
+				statusList = new ArrayList<ItemStatus>();
+				for(ItemStatus obj : status) {
+					if(obj.getItemId().equals(eq.getItemId())){
+						statusList.add(obj);
+					}
+				}
+				eq.setMaxItemStatus(statusList);
+			}
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

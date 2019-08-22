@@ -39,7 +39,7 @@ public class naverCafeWriter {
 	httpConnection conn = httpConnection.getInstance(); 
 	propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
 	
-	public void cafeWrtier() throws IOException {
+	public void cafeWrtier(String subject, String content) throws IOException {
 		//apikey를 가져옴
 //		getkey.initProperty(main.path + "APIKEY.properties");
 		
@@ -51,8 +51,8 @@ public class naverCafeWriter {
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
 		
-		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + getItemMaxRating(list) + "%)";	//글 제목
-		String content = contentHtmlMake(dnf, list);	//글 본문
+//		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + getItemMaxRating(list) + "%)";	//글 제목
+//		String content = contentHtmlMake(dnf, list);	//글 본문
 		
 		//테스트 테이블 추가
 		content += "<br><br><br>";

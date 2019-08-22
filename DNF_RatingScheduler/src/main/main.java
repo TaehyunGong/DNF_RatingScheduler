@@ -1,8 +1,12 @@
 package main;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -13,35 +17,30 @@ import vo.Equipment;
 
 public class main {
 
-	public static final String path = "resources/";
-	
-	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException, SQLException{
-//		naverCafeWriter ncw = new naverCafeWriter();
-//		ncw.cafeWrtier();
-		
-		propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
-		
-		getkey.initProperty(main.path + "APIKEY.properties");
-		DnfItemRating dnf = new DnfItemRating();
-//		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
-		List<Equipment> list = dnf.getEquipment();
-		
-		DBConnection conn = DBConnection.getInstance();
+	public void test() throws SQLException {
+		DBConnection dbConn = DBConnection.getInstance();
 		DnfItemRatingDao dao = DnfItemRatingDao.getInstance();
 		
-		List<Equipment> equipList = dao.selectAllEquipmentList(conn.getConnection());
-		System.out.println("select 완료");
+		Connection conn = dbConn.getConnection();
 		
-		// restAPI의 호출로 오늘날짜 데이터를 equipList (itemStatus, ItemGrade)에 삽입함
-		dnf.ratingItem(equipList, getkey.getKeyBox().get("DNFApiKey"));
-		System.out.println("http response 완료");
+		List<Equipment> list = dao.selectAllEquipmentList(conn);
 		
-		int result = dao.insertTodayStatus(conn.getConnection(), equipList);
-		System.out.println("스텟 insert 완료");
+		for(Equipment equip : list) {
+			System.out.println(equip.getItemName() +" : " + equip.getMaxItemStatus().size());
+		}
 		
-		result = dao.insertTodayGrade(conn.getConnection(), equipList);
+	}
+	
+	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
+
+		//그냥 process클래스에서 모든 모듈을 가져와 실행하도록 수정
+//		Process proc = new Process("resources/");
+//		proc.process();
 		
-		System.out.println(result);
+		main test = new main();
+		test.test();
+		
 	}
 
 }
+ 

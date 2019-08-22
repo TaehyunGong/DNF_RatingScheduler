@@ -15,7 +15,7 @@ public class htmlBuilder {
 	 * @description 첫 생성자에선 <html>를 생성
 	 */
 	public htmlBuilder() {
-		this.sb = new StringBuffer("<html>");
+		this.sb = new StringBuffer();
 		this.endtag = new Stack<String>();
 	}
 	
@@ -46,6 +46,19 @@ public class htmlBuilder {
 	}
 	
 	/**
+	 * @return this
+	 * @param attrText
+	 * @description <your tag> and attrText
+	 * {@code} tag("td","style='width:100px; color:red;'");
+	 * 
+	 */
+	public htmlBuilder tag(String tag, String attrText) {
+		this.sb.append("<" + tag + " " + attrText + ">");
+		this.endtag.push(tag);
+		return this;
+	}
+	
+	/**
 	 * @param tag
 	 * @param attr
 	 * @return this
@@ -70,7 +83,7 @@ public class htmlBuilder {
 	 * @return this
 	 * @description <br>
 	 */
-	public htmlBuilder test(String text) {
+	public htmlBuilder setText(String text) {
 		this.sb.append(text);
 		return this;
 	}	
@@ -86,6 +99,18 @@ public class htmlBuilder {
 	
 	/**
 	 * @return this
+	 * @param number
+	 * @description <br> * number 
+	 */
+	public htmlBuilder br(int number) {
+		for(int i=0; i<number; i++)
+			this.sb.append("<br>");
+		
+		return this;
+	}
+	
+	/**
+	 * @return this
 	 * @description <hr>
 	 */
 	public htmlBuilder hr() {
@@ -98,7 +123,6 @@ public class htmlBuilder {
 	 * @description 완성된 html코드를 반환
 	 */
 	public String build() {
-		sb.append("</html>");
 		return sb.toString();
 	}
 	

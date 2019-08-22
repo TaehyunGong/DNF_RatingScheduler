@@ -290,4 +290,37 @@ public class DnfItemRatingDao {
 		return list;
 	}
 	
+	
+	/**
+	 * @param conn
+	 * @return List<String>
+	 * @throws SQLException
+	 * @description 게시글에 뿌려줄 옵션 리스트들 반환
+	 */
+	public List<String> selectOptionList(Connection conn) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT optionName FROM ItemOption WHERE useYN = 'Y'";
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			ps.close();
+			rs.close();
+		}
+		
+		return list;
+	}
+	
+	
+	
 }

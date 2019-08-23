@@ -12,9 +12,17 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import vo.Equipment;
+
 public class DnfItemRating {
 
-	//resources/DNF_Equipment.json 에서 모든 json을 가져와 파싱한다.
+	/**
+	 * @return List<Equipment>
+	 * @throws JsonGenerationException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @description /resources/DNF_Equipment.json 에서 모든 json을 가져와 파싱한다.
+	 */
 	public List<Equipment> getEquipment() throws JsonGenerationException, JsonMappingException, IOException{
 		List<Equipment> equipmentList;
 		
@@ -22,7 +30,7 @@ public class DnfItemRating {
 		
 		InputStream input = null ;
 		
-		input = new FileInputStream(main.path + "DNF_Equipment.json");
+		input = new FileInputStream("/resources/DNF_Equipment.json");
 		
 	    equipmentList = mapper.readValue(input, new TypeReference<List<Equipment>>(){});
 	    
@@ -31,7 +39,13 @@ public class DnfItemRating {
 	    return equipmentList;
 	}
 	
-	//dnf api요청으로 현재날짜 등급가져와서 값 삽입 후 반환
+	/**
+	 * @param equipList
+	 * @param apikey
+	 * @return
+	 * @throws IOException
+	 * @description dnf api요청으로 현재날짜 등급가져와서 값 삽입 후 반환
+	 */
 	public List<Equipment> ratingItem(List<Equipment> equipList, String apikey) throws IOException{
 		
 		httpConnection conn = httpConnection.getInstance();
@@ -53,7 +67,11 @@ public class DnfItemRating {
 		return equipList;
 	}
 	
-	// 세트 명 가져오기
+	/**
+	 * @param list
+	 * @return
+	 * @description 세트 명 가져오기
+	 */
 	public Set<String> itemSetList(List<Equipment> list){
 		Set<String> set = new HashSet<String>();
 		for(Equipment equip : list) {

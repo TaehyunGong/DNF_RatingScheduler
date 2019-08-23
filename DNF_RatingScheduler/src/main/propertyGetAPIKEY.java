@@ -32,7 +32,6 @@ public class propertyGetAPIKEY {
 			input = new FileInputStream(propertyPath);
 			property.load(input);
 			input.close();
-			System.out.println("properties load success");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("properties load false");

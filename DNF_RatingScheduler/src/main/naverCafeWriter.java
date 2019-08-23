@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import main.Equipment.itemStatus;
+import vo.Equipment;
+import vo.ItemStatus;
 
 public class naverCafeWriter {
 
@@ -37,26 +39,14 @@ public class naverCafeWriter {
 	httpConnection conn = httpConnection.getInstance(); 
 	propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
 	
-	public void cafeWrtier() throws IOException {
+	public void cafeWrtier(String subject, String content) throws IOException {
 		//apikey를 가져옴
-		getkey.initProperty(main.path + "APIKEY.properties");
-		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
 //		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
-		
-		DnfItemRating dnf = new DnfItemRating();
-		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
-		
-		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + requestItemAverageRating(list) + "%)";	//글 제목
-		String content = contentHtmlMake(dnf, list);	//글 본문
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);
 		map.put("content", content);
-		
-		System.out.println(subject);
 		
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
 	}
@@ -80,8 +70,8 @@ public class naverCafeWriter {
 			
 			sb.append("<td width='8%'> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"'> </td>");
 			sb.append("<td width='25%'> " + equip.getItemName() +" </td>");
-			sb.append("<td width='20%'> " + equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%) </td>");
-			sb.append("<td width='48%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
+			sb.append("<td width='25%'> " + equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%) </td>");
+			sb.append("<td width='43%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
 			
 			sb.append("</tr>");
 			
@@ -91,22 +81,23 @@ public class naverCafeWriter {
 		return sb.toString();
 	}
 	
-	//아이템 평균 등급
-	public int requestItemAverageRating(List<Equipment> list){
-		int sum = 0;
+	//아이템 가장 높은 등급
+	public int getItemMaxRating(List<Equipment> list){
+		int max = 0;
 		
 		for(Equipment equip : list)
-			sum += Integer.parseInt(equip.getItemGradeValue());
+			if(Integer.parseInt(equip.getItemGradeValue()) > max)
+				max = Integer.parseInt(equip.getItemGradeValue());
 		
-		return sum / list.size();
+		return max;
 	}
 	
 	//수치값과 차이점
-	public String htmlTagInsertList(List<itemStatus> maxList, List<itemStatus> list) {
+	public String htmlTagInsertList(List<ItemStatus> maxList, List<ItemStatus> list) {
 		String content = "";
 		
 		for(int i=0; i<list.size(); i++) {
-			itemStatus status = list.get(i);
+			ItemStatus status = list.get(i);
 			
 			if(containList.contains(status.getName())) {
 				content += status.getName() + " : " + status.getValue() + "<font style='color:#ff0000; font-weight: bold;'>(+" + 
@@ -129,6 +120,38 @@ public class naverCafeWriter {
 		if(str == null)
 			str = replace;
 		return str;
+	}
+	
+	public String listCalendar(List list) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(cal.DAY_OF_MONTH, 1);
+		int maxDay = cal.getActualMaximum(cal.DAY_OF_MONTH);
+		int startWeek = cal.get(cal.DAY_OF_WEEK);
+
+		StringBuffer html = new StringBuffer();
+		html.append("<table border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5'>");
+		html.append("<tbody>");
+		html.append("<tr bgcolor='#FFFFFF'>");
+		
+		for(int i=1; i<maxDay+startWeek; i++) {
+			if(startWeek > i){
+				html.append("<td width='84px'></td>");
+			}else {
+				html.append("<td style='font-size:9pt;font-family:2820189_9;' width='84px'>" + (i+1-startWeek) + "</td>");
+			}
+			
+			if(i%7==0) {
+				html.append("</tr>");
+				html.append("<tr bgcolor='#FFFFFF'>");
+			}
+		}
+		html.append("</tr>");
+		
+		html.append("</tbody>");
+		html.append("</table>");
+		
+		return html.toString();
 	}
 	
 	// Naver access 토큰 발급

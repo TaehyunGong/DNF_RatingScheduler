@@ -34,7 +34,7 @@ public class Process {
 	}
 
 	//비즈니스 로직단
-	public void process() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
+	public void process() throws Exception {
 		
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> equipList = dao.selectAllEquipmentList(dbConn.getConnection());

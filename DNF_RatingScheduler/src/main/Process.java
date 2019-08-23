@@ -116,6 +116,7 @@ public class Process {
 			.tag("b", "style='color:#009e25; font-weight: bold;'")
 			.setText("(+0)")
 			.tagEnd()
+			.setText(" : 극옵 대비 차이값,  ")
 		.tagEnd()
 		.hr();
 		

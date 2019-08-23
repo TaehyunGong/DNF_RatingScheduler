@@ -110,7 +110,7 @@ public class Process {
 		html.tag("span","style='font-size: 12pt;'")
 			.setText("예시) ")
 			.tag("b", "style='color:#ff0000; font-weight: bold;'")
-			.setText("(+20)")
+			.setText("(+n)")
 			.tagEnd()
 			.setText(" : 극옵 대비 차이값,  ")
 			.tag("b", "style='color:#009e25; font-weight: bold;'")

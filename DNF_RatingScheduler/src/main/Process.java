@@ -23,10 +23,12 @@ public class Process {
 	DBConnection dbConn = null;
 	DnfItemRatingDao dao = null;
 	propertyGetAPIKEY getkey = null;
+	private List<String> containList = null;
 	
-	public Process(String path) {
+	public Process(String path) throws SQLException {
 		this.dbConn = DBConnection.getInstance();
 		this.dao = DnfItemRatingDao.getInstance();
+		this.containList = dao.selectOptionList(dbConn.getConnection());
 		
 		this.getkey = propertyGetAPIKEY.getInstance();
 		getkey.initProperty(path + "APIKEY.properties");
@@ -48,9 +50,6 @@ public class Process {
 		//DB insert실패시 시스템 강제종료
 		if(!is) return;
 		
-//		naverCafeWriter ncw = new naverCafeWriter();
-//		ncw.cafeWrtier("", "");
-		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
@@ -64,9 +63,8 @@ public class Process {
 		map.put("subject", subject);
 		map.put("content", content);
 		
-		System.out.println(subject);
-		System.out.println(content);
-		
+		naverCafeWriter ncw = new naverCafeWriter();
+		ncw.cafeWrtier(subject, content);
 	}
 	
 	/**
@@ -173,16 +171,32 @@ public class Process {
 	//수치값과 차이점
 	public String htmlTagInsertList(List<ItemStatus> maxList, List<ItemStatus> list) throws SQLException {
 		htmlBuilder optionContain = new htmlBuilder();
-		//필요한 옵션만 가져오도록
-		List<String> containList = dao.selectOptionList(dbConn.getConnection());
+		int maxStat = 0;
+		int toDayStat = 0;
+		int result = 0;
 		
+		//필요한 옵션만 가져오도록
 		for(int i=0; i<list.size(); i++) {
 			ItemStatus status = list.get(i);
-			
 			if(containList.contains(status.getName())) {
-				optionContain.setText(status.getName() + " : " + status.getValue())
-				.tag("font","style='color:#ff0000; font-weight: bold;' ")
-				.setText("(+" + (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")")
+				maxStat = 0;
+				toDayStat = Integer.parseInt(status.getValue());
+				
+				for(ItemStatus stat : maxList) {
+					if(stat.getName().equals(status.getName())){
+						maxStat = Integer.parseInt(stat.getValue());
+					}
+				}
+				result = maxStat - toDayStat;
+				
+				optionContain.setText(status.getName() + " : " + status.getValue());
+				
+				if(result == 0)
+					optionContain.tag("font","style='color:#009e25; font-weight: bold;' ");
+				else
+					optionContain.tag("font","style='color:#ff0000; font-weight: bold;' ");
+				
+				optionContain.setText("(+" + (maxStat - toDayStat) + ")")
 				.tagEnd()
 				.br();
 			}

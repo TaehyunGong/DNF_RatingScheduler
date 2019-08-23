@@ -41,28 +41,13 @@ public class naverCafeWriter {
 	
 	public void cafeWrtier(String subject, String content) throws IOException {
 		//apikey를 가져옴
-//		getkey.initProperty(main.path + "APIKEY.properties");
-		
 		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
 //		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
-		
-		DnfItemRating dnf = new DnfItemRating();
-		List<Equipment> list = dnf.ratingItem(dnf.getEquipment(), getkey.getKeyBox().get("DNFApiKey"));
-		
-//		String subject = sdf.format(new Date()) + list.get(0).getItemGradeName() + "(" + getItemMaxRating(list) + "%)";	//글 제목
-//		String content = contentHtmlMake(dnf, list);	//글 본문
-		
-		//테스트 테이블 추가
-		content += "<br><br><br>";
-		content += listCalendar(null);
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);
 		map.put("content", content);
 		
-		System.out.println(subject);
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
 	}
 	

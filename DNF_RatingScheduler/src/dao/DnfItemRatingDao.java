@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Queue;
 
 import vo.Equipment;
 import vo.ItemStatus;
@@ -259,10 +259,8 @@ public class DnfItemRatingDao {
 		
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
 		Equipment equip = new Equipment();
-		ArrayList<ItemStatus> status = new ArrayList<ItemStatus>(); 
+		Queue<ItemStatus> status = new LinkedList<ItemStatus>(); 
 		ItemStatus stat = null;
-		
-		Map<String, Equipment> equipMap = new HashMap<String, Equipment>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -285,28 +283,33 @@ public class DnfItemRatingDao {
 				equip.setSetItemId(rs.getString("setItemId"));
 				equip.setSetItemName(rs.getString("setItemName"));
 				
-				equipMap.put(equip.getItemId(), equip);
+				list.add(equip);
 				
 				stat = new ItemStatus();
 				stat.setItemId(rs.getString("itemId"));
 				stat.setName(rs.getString("name"));
 				stat.setValue(rs.getString("value"));
+				
 				status.add(stat);
 			}
 			
-			list = new ArrayList<Equipment>(equipMap.values());
-			ArrayList<ItemStatus> statusList = null;
-			
 			for(Equipment eq : list) {
-				statusList = new ArrayList<ItemStatus>();
-				for(ItemStatus obj : status) {
-					if(obj.getItemId().equals(eq.getItemId())){
-						statusList.add(obj);
+				List<ItemStatus> stList = new ArrayList<ItemStatus>();
+				int size = status.size();
+				for(int i=0; i<size; i++) {
+					if(eq.getItemId().equals(status.peek().getItemId())) {
+						stList.add(status.poll());
 					}
 				}
-				eq.setMaxItemStatus(statusList);
+				eq.setMaxItemStatus(stList);
 			}
 			
+			List<Equipment> dumpList = (List<Equipment>) list.clone();
+			list.clear();
+			for(Equipment eq : dumpList) {
+				if(eq.getMaxItemStatus().size() != 0)
+					list.add(eq);
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

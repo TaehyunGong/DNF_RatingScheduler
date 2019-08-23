@@ -43,25 +43,30 @@ public class DnfItemRating {
 	 * @param equipList
 	 * @param apikey
 	 * @return
-	 * @throws IOException
+	 * @throws Exception 
 	 * @description dnf api요청으로 현재날짜 등급가져와서 값 삽입 후 반환
 	 */
-	public List<Equipment> ratingItem(List<Equipment> equipList, String apikey) throws IOException{
+	public List<Equipment> ratingItem(List<Equipment> equipList, String apikey) throws Exception{
 		
 		httpConnection conn = httpConnection.getInstance();
 		ObjectMapper objmap = new ObjectMapper();
+		String responseMsg = null;
 		
 		String apiurl;
-		
-		for(Equipment equip : equipList){
-			
-			apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
-			
-			Equipment eq = objmap.readValue(conn.HttpGetConnection(apiurl).toString(), Equipment.class);
-			equip.setItemGradeName(eq.getItemGradeName());
-			equip.setItemGradeValue(eq.getItemGradeValue());
-			equip.setItemStatus(eq.getItemStatus());
-		
+		try {
+			for(Equipment equip : equipList){
+				
+				apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
+				responseMsg = conn.HttpGetConnection(apiurl).toString();
+				
+				Equipment eq = objmap.readValue(responseMsg, Equipment.class);
+				equip.setItemGradeName(eq.getItemGradeName());
+				equip.setItemGradeValue(eq.getItemGradeValue());
+				equip.setItemStatus(eq.getItemStatus());
+				
+			}
+		}catch(Exception e) {
+			throw new Exception(responseMsg);
 		}
 		
 		return equipList;

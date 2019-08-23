@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -106,23 +105,28 @@ public class Process {
 	// 카페 본문 내용
 	public String contentHtmlMake(List<Equipment> list) throws IOException, SQLException {
 		htmlBuilder html = new htmlBuilder();
-		Map<String, String> attr = new HashMap<String, String>();
 		
-		//sb.append("<h1>CTRL+F 로 원하는 장비 등급을 확인하세요.</h1>");
-		attr.put("style", "width:100%");
-		html.tag("table", attr);
+		//글 시작전 예시를 간단하게 텍스트로 뿌려줌
+		html.tag("span","style='font-size: 12pt;'")
+			.setText("예시) ")
+			.tag("b", "style='color:#ff0000; font-weight: bold;'")
+			.setText("(+20)")
+			.tagEnd()
+			.setText(" : 극옵 대비 차이값,  ")
+			.tag("b", "style='color:#009e25; font-weight: bold;'")
+			.setText("(+0)")
+			.tagEnd()
+		.tagEnd()
+		.hr();
 		
+		html.tag("table", "width:100%");
 		String checkSetName = "";	// 첫번째 세트명
 		
 		for(Equipment equip : list){
 			if(!checkSetName.equals(nvlString(equip.getSetItemName(), "천공의 유산"))) {
-				attr.clear();
-				attr.put("colspan", "4");
-				attr.put("font-size", "20px");
-				attr.put("font-weight", "bold");
 				
 				html.tag("tr")
-				.tag("td", attr)
+				.tag("td", "colspan='4' style='font-size: 20px; font-weight: bold;'")
 				.setText(nvlString(equip.getSetItemName(), "천공의 유산"))
 				.tagEnd()
 				.tagEnd();
@@ -150,6 +154,13 @@ public class Process {
 			.tagEnd();
 		}
 		html.tagEnd();
+		
+		//네오플 BI 이미지 삽입
+		html.br(2)
+		.tag("a","href='http://developers.neople.co.kr' target='_blank'")
+		.tag("img","src='https://developers.neople.co.kr/img/logo_t1.png' alt='Neople 오픈 API' width='50%'")
+		.tagEnd()
+		.tagEnd();
 		
 		return html.build();
 	}

@@ -255,7 +255,9 @@ public class DnfItemRatingDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 //		String sql = "SELECT * FROM Equipment ORDER BY printOrder";
-		String sql = "SELECT A.*, B.name, B.value FROM Equipment A JOIN MaxItemStatus B ON A.itemId = B.itemId ORDER BY printOrder";
+//		String sql = "SELECT A.*, B.name, B.value FROM Equipment A JOIN MaxItemStatus B ON A.itemId = B.itemId ORDER BY printOrder";
+		String sql = "SELECT A.*, B.name, B.value, C.itemGradeName, C.itemGradeValue FROM Equipment A "
+				+ "JOIN MaxItemStatus B ON A.itemId = B.itemId JOIN ItemGrade C ON A.itemId = C.itemId AND C.yyyymmdd = DATE_FORMAT(CURDATE() - INTERVAL 1 DAY,'%Y%m%d') ORDER BY printOrder";
 		
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
 		Equipment equip = new Equipment();
@@ -282,6 +284,9 @@ public class DnfItemRatingDao {
 				equip.setItemFlavorText(rs.getString("itemFlavorText"));
 				equip.setSetItemId(rs.getString("setItemId"));
 				equip.setSetItemName(rs.getString("setItemName"));
+				
+				equip.setItemGradeName(rs.getString("itemGradeName"));
+				equip.setItemGradeValue(rs.getString("itemGradeValue"));
 				
 				list.add(equip);
 				
@@ -353,6 +358,71 @@ public class DnfItemRatingDao {
 		return list;
 	}
 	
+	
+	/**
+	 * @return
+	 * @throws SQLException 
+	 * @description 어제날짜 옵션 리스트 가져옴
+	 */
+	public List<Equipment> selectYesterStatus(Connection conn) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT A.*, B.name, B.value FROM Equipment A  JOIN ItemStatus B  ON A.itemId = B.itemId  AND B.yyyymmdd = DATE_FORMAT(CURDATE() - INTERVAL 1 DAY,'%Y%m%d') ORDER BY printOrder";
+		
+		ArrayList<Equipment> list = new ArrayList<Equipment>();
+		Equipment equip = new Equipment();
+		Queue<ItemStatus> status = new LinkedList<ItemStatus>(); 
+		ItemStatus stat = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				equip = new Equipment();
+				//항상 이전 리스트의 장비로 덮어씌운다.
+				equip.setItemId(rs.getString("itemId"));
+				equip.setItemName(rs.getString("itemName"));
+				
+				list.add(equip);
+				
+				stat = new ItemStatus();
+				stat.setItemId(rs.getString("itemId"));
+				stat.setName(rs.getString("name"));
+				stat.setValue(rs.getString("value"));
+				
+				status.add(stat);
+			}
+			
+			for(Equipment eq : list) {
+				List<ItemStatus> stList = new ArrayList<ItemStatus>();
+				int size = status.size();
+				for(int i=0; i<size; i++) {
+					if(eq.getItemId().equals(status.peek().getItemId())) {
+						stList.add(status.poll());
+					}
+				}
+				eq.setItemStatus(stList);
+			}
+			
+			List<Equipment> dumpList = (List<Equipment>) list.clone();
+			list.clear();
+			for(Equipment eq : dumpList) {
+				if(eq.getItemStatus().size() != 0)
+					list.add(eq);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			ps.close();
+			rs.close();
+		}
+		
+		return list;
+	}
 	
 	
 }

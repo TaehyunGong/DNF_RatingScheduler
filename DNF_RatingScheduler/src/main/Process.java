@@ -22,7 +22,7 @@ public class Process {
 	DBConnection dbConn = null;
 	DnfItemRatingDao dao = null;
 	propertyGetAPIKEY getkey = null;
-	private List<String> containList = null;
+	public static List<String> containList = null;
 	
 	public Process(String path) throws SQLException {
 		this.dbConn = DBConnection.getInstance();
@@ -38,11 +38,20 @@ public class Process {
 		
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> equipList = dao.selectAllEquipmentList(dbConn.getConnection());
+		List<Equipment> yetEquipList = dao.selectYesterStatus(dbConn.getConnection());
+		
 		String dnfApiKey = getkey.getKeyBox().get("DNFApiKey");
 		
 		// restAPI의 호출로 오늘날짜 데이터를 equipList (itemStatus, ItemGrade)에 삽입함
-		equipList = dnf.ratingItem(equipList, dnfApiKey);
-		
+		while(true){
+			if(dnf.ratingItem(equipList, yetEquipList, dnfApiKey) == equipList.size() ){
+				System.out.println("업데이트 완료 - 총 테이 갯수 : " + equipList.size());
+				break;
+			}
+			System.out.println("2초 대기...");
+			Thread.sleep(100000);
+		}
+	
 		//DB에 ItemGrade 및 ItemStatus에 오늘날 값을 insert한다.
 		boolean is = insertToday(dbConn.getConnection(), equipList);
 		

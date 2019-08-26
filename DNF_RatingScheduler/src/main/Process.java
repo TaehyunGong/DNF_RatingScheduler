@@ -22,7 +22,7 @@ public class Process {
 	DBConnection dbConn = null;
 	DnfItemRatingDao dao = null;
 	propertyGetAPIKEY getkey = null;
-	private List<String> containList = null;
+	public static List<String> containList = null;
 	
 	public Process(String path) throws SQLException {
 		this.dbConn = DBConnection.getInstance();
@@ -38,25 +38,30 @@ public class Process {
 		
 		DnfItemRating dnf = new DnfItemRating();
 		List<Equipment> equipList = dao.selectAllEquipmentList(dbConn.getConnection());
+		List<Equipment> yetEquipList = dao.selectYesterStatus(dbConn.getConnection());
+		
 		String dnfApiKey = getkey.getKeyBox().get("DNFApiKey");
 		
 		// restAPI의 호출로 오늘날짜 데이터를 equipList (itemStatus, ItemGrade)에 삽입함
-		equipList = dnf.ratingItem(equipList, dnfApiKey);
-		
+		// 그러나 rest쪽의 업데이트가 늦어지므로 업데이트가 됨을 확인할때까지 2*90 최대 90초를  2초주기로 반복함
+		for(int cycle=0; cycle<10; cycle++){
+			if(dnf.ratingItem(equipList, yetEquipList, dnfApiKey)){
+				System.out.println("업데이트 완료 - 총 테이 갯수 : " + equipList.size());
+				break;
+			}
+			System.out.println("2초 대기...");
+			Thread.sleep(2000);
+		}
+	
 		//DB에 ItemGrade 및 ItemStatus에 오늘날 값을 insert한다.
 		boolean is = insertToday(dbConn.getConnection(), equipList);
 		
 		//DB insert실패시 시스템 강제종료
 		if(!is) return;
 		
-		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
 		String content = contentHtmlMake(equipList);	//글 본문
-		
-		//테스트 테이블 추가
-//		content += listCalendar(null);
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);

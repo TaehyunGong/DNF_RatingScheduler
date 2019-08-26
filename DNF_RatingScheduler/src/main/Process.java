@@ -44,7 +44,7 @@ public class Process {
 		
 		// restAPI의 호출로 오늘날짜 데이터를 equipList (itemStatus, ItemGrade)에 삽입함
 		// 그러나 rest쪽의 업데이트가 늦어지므로 업데이트가 됨을 확인할때까지 2*90 최대 90초를  2초주기로 반복함
-		for(int cycle=0; cycle<10; cycle++){
+		for(int cycle=0; cycle<90; cycle++){
 			if(dnf.ratingItem(equipList, yetEquipList, dnfApiKey)){
 				System.out.println("업데이트 완료 - 총 테이 갯수 : " + equipList.size());
 				break;

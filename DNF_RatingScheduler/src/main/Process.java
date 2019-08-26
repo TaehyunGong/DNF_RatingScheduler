@@ -24,13 +24,19 @@ public class Process {
 	propertyGetAPIKEY getkey = null;
 	public static List<String> containList = null;
 	
-	public Process(String path) throws SQLException {
-		this.dbConn = DBConnection.getInstance();
+	public Process(String path) throws SQLException, ClassNotFoundException {
+		this.getkey = propertyGetAPIKEY.getInstance();
+		getkey.addProperty(path + "APIKEY.properties");
+		getkey.addProperty(path + "DBConnection.properties");
+		
+		this.dbConn = DBConnection.getInstance().setUrl(getkey.getKeyBox().get("jdbcURL"))
+												.setUser(getkey.getKeyBox().get("user"))
+												.setPassword(getkey.getKeyBox().get("password"))
+												.initConnection();
+		
 		this.dao = DnfItemRatingDao.getInstance();
 		this.containList = dao.selectOptionList(dbConn.getConnection());
 		
-		this.getkey = propertyGetAPIKEY.getInstance();
-		getkey.initProperty(path + "APIKEY.properties");
 	}
 
 	/**

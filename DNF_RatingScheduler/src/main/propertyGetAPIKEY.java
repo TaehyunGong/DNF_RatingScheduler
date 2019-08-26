@@ -13,7 +13,9 @@ public class propertyGetAPIKEY {
 	private Properties property ;
 	private Map<String, String> keyBox;
 	
-	private propertyGetAPIKEY(){}
+	private propertyGetAPIKEY(){
+		this.keyBox = new HashMap<String, String>();
+	}
 	
 	private static class propertyGetAPIKEY_Singieton{
 		private static final propertyGetAPIKEY instance = new propertyGetAPIKEY();
@@ -23,8 +25,11 @@ public class propertyGetAPIKEY {
 		return propertyGetAPIKEY_Singieton.instance;
 	}
 	
-	// properties 가져와서 전역변수로 키값 삽입
-	public void initProperty(String propertyPath){
+	/**
+	 * @param propertyPath
+	 * @description 초기의 properties 가져와서 전역변수로 키/값 추가
+	 */
+	public void addProperty(String propertyPath){
 		this.property = new Properties();
 		
 		InputStream input = null ; 
@@ -42,8 +47,6 @@ public class propertyGetAPIKEY {
 				e.printStackTrace();
 			}
 		}
-		
-		keyBox = new HashMap<String, String>();
 		
 		for(Entry<Object, Object> val : property.entrySet()) {
 			keyBox.put((String)val.getKey(), (String)val.getValue());

@@ -47,6 +47,10 @@ https://blogfiles.pstatic.net/MjAxOTA4MTNfNjcg/MDAxNTY1NjY0MDk2NTM4.OcHwtEwh0SE7
 https://blogfiles.pstatic.net/MjAxOTA4MTNfMjg3/MDAxNTY1NjY0MDY4ODk2.jLsi3CkJuAUN_qMrdjFop2G_gecZZ3EB7nDxf7FCRlEg.A7Jk-FAFbZVASnVRtHt6duiG9--OU5_9rxpikttNYv8g.PNG.tony950620/image.png
 
 
+## feature/*
+20190823 - MariaDB를 구축하여 DB연동. 매일 정시마다 업데이트된 데이터를 INSERT, 카페 글에선 극옵션일 경우 초록색으로 변경하였다.
+
+
 
 ## hotfix
 20190826 - DNF Develop 상점 등급 rest 데이터 00시에 정확히 모든 데이터가 업데이트가 안되는 것으로 확인;

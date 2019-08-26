@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +53,24 @@ public class propertyGetAPIKEY {
 			keyBox.put((String)val.getKey(), (String)val.getValue());
 		}
 		
+	}
+	
+	/**
+	 * @param propertyPath
+	 * @description 해당 경로에 있는 모든 .properties의 확장자만 읽어서 map에 넣는다.
+	 */
+	public void addAllProperty(String propertyPath) {
+		File[] fileList = new File(propertyPath).listFiles();
+		String fileExtend;
+		String ext;
+		
+		for(File file : fileList) {
+			fileExtend = file.getName();
+			ext = fileExtend.substring(fileExtend.lastIndexOf(".")+1);
+			if(ext.equals("properties")) {
+				addProperty(file.getPath());
+			}
+		}
 	}
 	
 	public Properties getProperty() {

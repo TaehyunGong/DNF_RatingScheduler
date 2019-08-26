@@ -26,8 +26,7 @@ public class Process {
 	
 	public Process(String path) throws SQLException, ClassNotFoundException {
 		this.getkey = propertyGetAPIKEY.getInstance();
-		getkey.addProperty(path + "APIKEY.properties");
-		getkey.addProperty(path + "DBConnection.properties");
+		getkey.addAllProperty(path);
 		
 		this.dbConn = DBConnection.getInstance().setUrl(getkey.getKeyBox().get("jdbcURL"))
 												.setUser(getkey.getKeyBox().get("user"))

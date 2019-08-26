@@ -68,7 +68,11 @@ public class naverCafeWriter {
 		return html.toString();
 	}
 	
-	// Naver access 토큰 발급
+	/**
+	 * @return
+	 * @throws IOException
+	 * @description Naver access 토큰 발급
+	 */
 	public String RequestAccessToken() throws IOException {
 		String AccessToken;
 		

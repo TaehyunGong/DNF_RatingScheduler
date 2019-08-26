@@ -45,3 +45,14 @@ crontab set 매일 00시마다 실행
 https://blogfiles.pstatic.net/MjAxOTA4MTNfNjcg/MDAxNTY1NjY0MDk2NTM4.OcHwtEwh0SE7hXkYQ7AZzdvv_Tbp2v9gjiITyzOpzIUg.Mym9XrqqJfI_4WLpWEaN03eH_JYfphousi8Y-sS4wFog.PNG.tony950620/image.png
 
 https://blogfiles.pstatic.net/MjAxOTA4MTNfMjg3/MDAxNTY1NjY0MDY4ODk2.jLsi3CkJuAUN_qMrdjFop2G_gecZZ3EB7nDxf7FCRlEg.A7Jk-FAFbZVASnVRtHt6duiG9--OU5_9rxpikttNYv8g.PNG.tony950620/image.png
+
+
+
+## hotfix
+DNF Develop 상점 등급 rest 데이터 00시에 정확히 모든 데이터가 업데이트가 안되는 것으로 확인;
+그러므로 00시에 돌던 내 시스템은 어제자의 데이터(업데이트 전)와 오늘날의 데이터(업데이트 된)가 짬뽕됬다..
+일단은 긴급히 어제의 모든 장비등급과 오늘 업데이트 될 장비등급이 완전히 같다면 업데이트가 안된것으로 판단하여
+2초마다 최대 180초 동안 재호출하도록 변경하였다.
+
+무료로 받는 데이터인지라 따질수도 없고 왜 이러한 하드코딩을 해야하는지 난감한 상황이다;
+

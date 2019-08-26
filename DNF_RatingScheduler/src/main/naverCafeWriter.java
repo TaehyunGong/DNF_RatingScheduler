@@ -16,110 +16,25 @@ import vo.ItemStatus;
 
 public class naverCafeWriter {
 
-	ArrayList<String> containList;
-	
-	public naverCafeWriter() {
-		containList = new ArrayList<String>();
-		containList.add("힘");
-		containList.add("지능");
-		containList.add("체력");
-		containList.add("정신력");
-		containList.add("모든 속성 강화");
-		containList.add("물리 방어력");
-		containList.add("마법 방어력");
-		containList.add("화속성강화");
-		containList.add("수속성강화");
-		containList.add("명속성강화");
-		containList.add("암속성강화");
-		containList.add("물리 공격력");
-		containList.add("마법 공격력");
-		containList.add("독립 공격력");
-	}
-
 	httpConnection conn = httpConnection.getInstance(); 
 	propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
 	
+	/**
+	 * @param subject
+	 * @param content
+	 * @throws IOException
+	 * @description 제목과 본문을 map으로 저장후 apikey와 같이 post요청으로 글작성
+	 */
 	public void cafeWrtier(String subject, String content) throws IOException {
 		//apikey를 가져옴
-		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
-//		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카
+//		String apiURL = "https://openapi.naver.com/v1/cafe/29837103/menu/1/articles";	//테스트용  테스트950 카페
+		String apiURL = "https://openapi.naver.com/v1/cafe/11276312/menu/48/articles";	//실제 운영할 카페 던공카
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("subject", subject);
 		map.put("content", content);
 		
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
-	}
-	
-	// 카페 본문 내용
-	public String contentHtmlMake(DnfItemRating dnf, List<Equipment> list) throws IOException {
-		StringBuffer sb = new StringBuffer();
-		
-		//sb.append("<h1>CTRL+F 로 원하는 장비 등급을 확인하세요.</h1>");
-		sb.append("<table style='width:100%;'>");
-		
-		String checkSetName = "";	// 첫번째 세트명
-		
-		for(Equipment equip : list){
-			if(!checkSetName.equals(nvlString(equip.getSetItemName(), "천공의 유산"))) {
-				sb.append("<tr><td colspan='4' style='font-size: 20px; font-weight: bold;'> -" + nvlString(equip.getSetItemName(), "천공의 유산") + "</td> </tr>");
-			}
-			checkSetName = nvlString(equip.getSetItemName(), "천공의 유산");	// 세트명 
-			
-			sb.append("<tr>");
-			
-			sb.append("<td width='8%'> <img src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() +"'> </td>");
-			sb.append("<td width='25%'> " + equip.getItemName() +" </td>");
-			sb.append("<td width='25%'> " + equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%) </td>");
-			sb.append("<td width='43%'> " + htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()) +" </td>");
-			
-			sb.append("</tr>");
-			
-		}
-		
-		sb.append("</table>");
-		return sb.toString();
-	}
-	
-	//아이템 가장 높은 등급
-	public int getItemMaxRating(List<Equipment> list){
-		int max = 0;
-		
-		for(Equipment equip : list)
-			if(Integer.parseInt(equip.getItemGradeValue()) > max)
-				max = Integer.parseInt(equip.getItemGradeValue());
-		
-		return max;
-	}
-	
-	//수치값과 차이점
-	public String htmlTagInsertList(List<ItemStatus> maxList, List<ItemStatus> list) {
-		String content = "";
-		
-		for(int i=0; i<list.size(); i++) {
-			ItemStatus status = list.get(i);
-			
-			if(containList.contains(status.getName())) {
-				content += status.getName() + " : " + status.getValue() + "<font style='color:#ff0000; font-weight: bold;'>(+" + 
-						   (Integer.parseInt(maxList.get(i).getValue()) - Integer.parseInt(status.getValue())) + ")</font> <br>";
-			}
-		}
-		
-		return content;
-	}
-	
-	//nvl('a')
-	public String nvlString(String str) {
-		if(str == null)
-			str = "";
-		return str;
-	}
-	
-	//nvl('a', 'b')
-	public String nvlString(String str, String replace) {
-		if(str == null)
-			str = replace;
-		return str;
 	}
 	
 	public String listCalendar(List list) {

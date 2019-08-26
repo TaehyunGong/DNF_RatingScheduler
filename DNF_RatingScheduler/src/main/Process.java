@@ -33,7 +33,10 @@ public class Process {
 		getkey.initProperty(path + "APIKEY.properties");
 	}
 
-	//비즈니스 로직단
+	/**
+	 * @throws Exception
+	 * @description 모든 모듈을 가지고 프로세스를 진행하는 메소드
+	 */
 	public void process() throws Exception {
 		
 		DnfItemRating dnf = new DnfItemRating();
@@ -54,18 +57,12 @@ public class Process {
 		}
 	
 		//DB에 ItemGrade 및 ItemStatus에 오늘날 값을 insert한다.
-		boolean is = insertToday(dbConn.getConnection(), equipList);
-		
-		//DB insert실패시 시스템 강제종료
-		if(!is) return;
+		//어차피 insert error 나면 자동 rollback 된다.
+		insertToday(dbConn.getConnection(), equipList);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
 		String content = contentHtmlMake(equipList);	//글 본문
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("subject", subject);
-		map.put("content", content);
 		
 		naverCafeWriter ncw = new naverCafeWriter();
 		ncw.cafeWrtier(subject, content);
@@ -79,24 +76,29 @@ public class Process {
 	 * @throws SQLException
 	 * @description 오늘 업데이트된 장비정보를 DB에 insert
 	 */
-	public boolean insertToday(Connection conn, List<Equipment> equipList) throws SQLException{
-		boolean check = false;
+	public void insertToday(Connection conn, List<Equipment> equipList) throws SQLException{
 		
-		int resultStatus = dao.insertTodayStatus(conn, equipList);
-		int resultGrade = dao.insertTodayGrade(conn, equipList); 
-		
-		//하나라도 insert못한다면 전체 rollback
-		if(resultStatus == 0 || resultGrade == 0) {
-			conn.rollback();
-		}else {
-			conn.commit();
-			check = true;
-		}
+		try {
+			int resultStatus = dao.insertTodayStatus(conn, equipList);
+			int resultGrade = dao.insertTodayGrade(conn, equipList);
 			
-		return check;
+			//하나라도 insert못한다면 전체 rollback
+			if(resultStatus == 0 || resultGrade == 0) {
+				conn.rollback();
+			}else {
+				conn.commit();
+			}
+		}catch(Exception e) {
+			System.out.println("SQL INSERT 에러 rollback");
+			conn.rollback();
+		}
 	}
 	
-	//아이템 가장 높은 등급
+	/**
+	 * @param list
+	 * @return int
+	 * @description 모든 아이템 등급중에서 가장 max값을 반환 
+	 */
 	public int getItemMaxRating(List<Equipment> list){
 		int max = 0;
 		
@@ -107,7 +109,13 @@ public class Process {
 		return max;
 	}
 	
-	// 카페 본문 내용
+	/**
+	 * @param list
+	 * @return String
+	 * @throws IOException
+	 * @throws SQLException
+	 * @description 카페에 뿌려줄 html를 작성
+	 */
 	public String contentHtmlMake(List<Equipment> list) throws IOException, SQLException {
 		htmlBuilder html = new htmlBuilder();
 		
@@ -116,13 +124,13 @@ public class Process {
 			.setText("예시) ")
 			.tag("b", "style='color:#ff0000; font-weight: bold;'")
 			.setText("(+n)")
-			.tagEnd()
+			.endTag()
 			.setText(" : 극옵 대비 차이값,  ")
 			.tag("b", "style='color:#009e25; font-weight: bold;'")
 			.setText("(+0)")
-			.tagEnd()
+			.endTag()
 			.setText(" : 극옵 대비 차이값,  ")
-		.tagEnd()
+		.endTag()
 		.hr();
 		
 		html.tag("table", "width:100%");
@@ -134,39 +142,39 @@ public class Process {
 				html.tag("tr")
 				.tag("td", "colspan='4' style='font-size: 20px; font-weight: bold;'")
 				.setText(nvlString(equip.getSetItemName(), "천공의 유산"))
-				.tagEnd()
-				.tagEnd();
+				.endTag()
+				.endTag();
 			}
 			checkSetName = nvlString(equip.getSetItemName(), "천공의 유산");	// 세트명 
 			
 			html.tag("tr")
 			.tag("td","width='8%'")
 				.tag("img","src='https://img-api.neople.co.kr/df/items/" + equip.getItemId() + "'")
-				.tagEnd()
-			.tagEnd()
+				.endTag()
+			.endTag()
 			
 			.tag("td","width='25%'")
 				.setText(equip.getItemName())
-			.tagEnd()
+			.endTag()
 
 			.tag("td","width='25%'")
 				.setText(equip.getItemGradeName() + " (" + equip.getItemGradeValue() + "%)")
-			.tagEnd()
+			.endTag()
 			
 			.tag("td","width='43%'")
 				.setText(htmlTagInsertList(equip.getMaxItemStatus(), equip.getItemStatus()))
-			.tagEnd()
+			.endTag()
 			
-			.tagEnd();
+			.endTag();
 		}
-		html.tagEnd();
+		html.endTag();
 		
 		//네오플 BI 이미지 삽입
 		html.br(2)
 		.tag("a","href='http://developers.neople.co.kr' target='_blank'")
 		.tag("img","src='https://developers.neople.co.kr/img/logo_t1.png' alt='Neople 오픈 API' width='50%'")
-		.tagEnd()
-		.tagEnd();
+		.endTag()
+		.endTag();
 		
 		return html.build();
 	}
@@ -214,7 +222,7 @@ public class Process {
 					optionContain.tag("font","style='color:#ff0000; font-weight: bold;' ");
 				
 				optionContain.setText("(+" + (maxStat - toDayStat) + ")")
-				.tagEnd()
+				.endTag()
 				.br();
 			}
 		}

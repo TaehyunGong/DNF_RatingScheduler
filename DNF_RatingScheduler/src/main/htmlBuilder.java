@@ -23,7 +23,7 @@ public class htmlBuilder {
 	 * @return this
 	 * @description 마지막으로 호출했던 tag를 가져와 태그를 끝맽음 </tag>
 	 */
-	public htmlBuilder tagEnd() {
+	public htmlBuilder endTag() {
 		if(endtag == null) {
 		}
 		try {

@@ -26,7 +26,7 @@ public class DBConnection {
 
 	private Connection initConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://210.89.178.130:3306/DNF_RatingSchedular","root","sky950");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/DNF_RatingSchedular","root","123");
 		conn.setAutoCommit(false);
 		return conn;
 	}

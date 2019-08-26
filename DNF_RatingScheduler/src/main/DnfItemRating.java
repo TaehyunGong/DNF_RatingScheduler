@@ -12,6 +12,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import dao.DBConnection;
+import dao.DnfItemRatingDao;
 import vo.Equipment;
 import vo.ItemStatus;
 
@@ -47,13 +49,13 @@ public class DnfItemRating {
 	 * @throws Exception 
 	 * @description dnf api요청으로 현재날짜 등급가져와서 값 삽입 후 반환
 	 */
-	public int ratingItem(List<Equipment> equipList, List<Equipment> yetEquipList, String apikey) throws Exception{
+	public boolean ratingItem(List<Equipment> equipList, List<Equipment> yetEquipList, String apikey) throws Exception{
 		
 		httpConnection conn = httpConnection.getInstance();
 		ObjectMapper objmap = new ObjectMapper();
 		String responseMsg = null;
 		
-		int updateStatusSize = 0;
+		boolean updateStatusCheck = true;
 		
 		String apiurl;
 		try {
@@ -64,12 +66,12 @@ public class DnfItemRating {
 				if(equip.getItemStatus() == null){
 					apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
 					responseMsg = conn.HttpGetConnection(apiurl).toString();
-					
 					Equipment eq = objmap.readValue(responseMsg, Equipment.class);
 					
 					//아직 업데이트가 안될수 있기때문에 어제자 등급과 status의 value를 일일히 대조한다.
 					if(equalsTodayStatus(yetEquipList.get(i).getItemStatus(), eq.getItemStatus())){
-						System.out.println(eq.getItemName() + " : 아직 업데이트 안됨");
+						System.out.println(yetEquipList.get(i).getItemName() + " : 아직 업데이트 안됨");
+						updateStatusCheck = false;
 						continue;
 					}
 					
@@ -81,11 +83,12 @@ public class DnfItemRating {
 			}
 			System.out.println("완료");
 		}catch(Exception e) {
+			updateStatusCheck = false;
 			e.printStackTrace();
 			throw new Exception(responseMsg);
 		}
 		
-		return updateStatusSize;
+		return updateStatusCheck;
 	}
 	
 	/**
@@ -96,15 +99,29 @@ public class DnfItemRating {
 	 */
 	public boolean equalsTodayStatus(List<ItemStatus> selectStatus, List<ItemStatus> receiveStatus){
 		boolean check = false;
-		
-		//어제 아이템등급 %와 오늘받아온 %가 같다면 아직 Rest쪽에서 업데이트가 안됬으므로 false를 반환하여 재요청을 한다.
-		for(int i=0; i<selectStatus.size(); i++){
-			if(isStatusValue(selectStatus.get(i), receiveStatus.get(i))){
-				check = true;
-				break;
+		int containOptionNumber = 0;
+		int checkNumber = 0;
+		//어제 아이템등급 %와 오늘받아온 %가 모든 옵션이 다 같다면 아직 Rest쪽에서 업데이트가 안됬으므로 false를 반환하여 재요청을 한다.
+		for(ItemStatus stat : selectStatus){
+			
+			if(Process.containList.contains(stat.getName())) {
+				containOptionNumber += 1;
+				
+				for(ItemStatus receiveStat : receiveStatus) {
+					if(stat.getName().equals(receiveStat.getName())) {
+						if(isStatusValue(stat, receiveStat)){
+							checkNumber += 1;
+							break;
+						}
+					}
+				}
 			}
 		}
+		//사용되는 총 옵션의 갯수와 어제와 오늘의 데이터의 일치수를 비교하여 전부 일치하면 업데이트가 안된것으로 판단하여 true를 반환
+		if(containOptionNumber == checkNumber)
+			check = true;
 		
+		System.out.println("비교한 옵션 갯수 : " + containOptionNumber +" vs " + checkNumber);
 		return check;
 	}
 	
@@ -116,9 +133,9 @@ public class DnfItemRating {
 	 */
 	public boolean isStatusValue(ItemStatus dbStatus, ItemStatus receiveStatus){
 		boolean check = false;
+		System.out.println(dbStatus.getValue() + ",  " +  receiveStatus.getValue());
 		
 		if(dbStatus.getValue().equals(receiveStatus.getValue())){
-			System.out.println(dbStatus.getValue() + ",  " +  receiveStatus.getValue());
 			check = true;
 		}
 		

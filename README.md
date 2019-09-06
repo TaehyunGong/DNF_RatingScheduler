@@ -66,3 +66,6 @@ https://blogfiles.pstatic.net/MjAxOTA4MTNfMjg3/MDAxNTY1NjY0MDY4ODk2.jLsi3CkJuAUN
 
 무료로 받는 데이터인지라 따질수도 없고 왜 이러한 하드코딩을 해야하는지 난감한 상황이다;
 
+20190906 - 5일 데이터와 6일 데이터의 status데이터가 완전히 일치하는 경우가 생겨 필터링단계에서 걸러져 INSERT를 못하는 경우가 생겼다.
+hotfix/InsertError 브랜치를 생성해 에러를 수정후 재배포를 하였다.
+

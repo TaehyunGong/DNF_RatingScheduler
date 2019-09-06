@@ -64,6 +64,7 @@ public class DnfItemRating {
 				
 				//Status가 null일경우에만 값을 넣어준다.
 				if(equip.getItemStatus() == null){
+					
 					apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
 					responseMsg = conn.HttpGetConnection(apiurl).toString();
 					Equipment eq = objmap.readValue(responseMsg, Equipment.class);
@@ -155,6 +156,43 @@ public class DnfItemRating {
 		set.remove(null);
 		
 		return set;
+	}
+	
+	
+	/**
+	 * @param equipList
+	 * @param yetEquipList
+	 * @param apikey
+	 * @throws Exception
+	 * @description 만약 끝까지 status가 값이 같을 경우 그냥 모든 값들을 현재 status로 덮어준다.
+	 */
+	public void finalRatingItem(List<Equipment> equipList, String apikey) throws Exception{
+		
+		httpConnection conn = httpConnection.getInstance();
+		ObjectMapper objmap = new ObjectMapper();
+		String responseMsg = null;
+		
+		String apiurl;
+		try {
+			for(int i=0; i<equipList.size(); i++){
+				Equipment equip = equipList.get(i);
+				
+				//Status가 null일경우에만 값을 넣어준다.
+				apiurl = "https://api.neople.co.kr/df/items/" + equip.getItemId() +"/shop?apikey=" + apikey;
+				responseMsg = conn.HttpGetConnection(apiurl).toString();
+				Equipment eq = objmap.readValue(responseMsg, Equipment.class);
+				
+				equip.setItemGradeName(eq.getItemGradeName());
+				equip.setItemGradeValue(eq.getItemGradeValue());
+				equip.setItemStatus(eq.getItemStatus());
+				
+			}
+			System.out.println("finalRatingItem 완료");
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(responseMsg);
+		}
+		
 	}
 	
 }

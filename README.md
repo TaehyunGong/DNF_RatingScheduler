@@ -3,12 +3,12 @@ DNF의 테이베르스 아이템 등급을 <https://developers.neople.co.kr/>에
 네이버 던전앤 파이터 공식 카페에 게시(해당 카페 조회시 가입이 필요) <https://cafe.naver.com/dfither/20183510>
 
 ## 개발 환경
-Language : open JDK 1.8
-IDE : eclipse neon
-VCS : Github or Git
-VCS Tool : SourceTree
-Server : NCloud [Compact] 1vCPU, 2GB Mem
-Server OS : Centos7.3
+* Language : open JDK 1.8
+* IDE : eclipse neon
+* VCS : Github or Git
+* VCS Tool : SourceTree
+* Server : NCloud [Compact] 1vCPU, 2GB Mem
+* Server OS : Centos7.3
 
 ## 개발 기간
 20190809 ~ 20190813 (4일, 실작업시간을 얼마안됨..)

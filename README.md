@@ -48,15 +48,10 @@ crontab set 매일 00시마다 실행
 만약 반응이 좋다면 다른 무료 서버로 이관하여 이 서비스만 연장할것 이다.
 
 ## 스크린샷
-https://blogfiles.pstatic.net/MjAxOTA4MTNfNjcg/MDAxNTY1NjY0MDk2NTM4.OcHwtEwh0SE7hXkYQ7AZzdvv_Tbp2v9gjiITyzOpzIUg.Mym9XrqqJfI_4WLpWEaN03eH_JYfphousi8Y-sS4wFog.PNG.tony950620/image.png
-
-https://blogfiles.pstatic.net/MjAxOTA4MTNfMjg3/MDAxNTY1NjY0MDY4ODk2.jLsi3CkJuAUN_qMrdjFop2G_gecZZ3EB7nDxf7FCRlEg.A7Jk-FAFbZVASnVRtHt6duiG9--OU5_9rxpikttNYv8g.PNG.tony950620/image.png
-
+![cafeContent](https://user-images.githubusercontent.com/38848719/64661401-627ff980-d47f-11e9-9920-cbdfa43b100e.PNG)
 
 ## feature/*
 20190823 - MariaDB를 구축하여 DB연동. 매일 정시마다 업데이트된 데이터를 INSERT, 카페 글에선 극옵션일 경우 초록색으로 변경하였다.
-
-
 
 ## hotfix
 20190826 - DNF Develop 상점 등급 rest 데이터 00시에 정확히 모든 데이터가 업데이트가 안되는 것으로 확인;

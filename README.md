@@ -1,5 +1,5 @@
 # DNF_RatingScheduler
-## 개요
+## Summary
 * DNF의 테이베르스 아이템 등급을 <https://developers.neople.co.kr/>에서 호출 후 네이버 던전앤 파이터 공식 카페에 게시
 * 해당 카페 조회시 가입이 필요 <https://cafe.naver.com/dfither/20183510>
 
@@ -8,6 +8,7 @@
 * IDE : eclipse neon
 * VCS : Github or Git
 * VCS Tool : SourceTree
+* API : Naver Cafe API
 
 ## Operation Environment
 * Server : NCloud [Compact] 1vCPU, 2GB Mem

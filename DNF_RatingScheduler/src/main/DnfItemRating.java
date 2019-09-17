@@ -19,6 +19,12 @@ import vo.ItemStatus;
 
 public class DnfItemRating {
 
+	List<String> containList = null;
+	
+	public DnfItemRating(List<String> containList) {
+		this.containList = containList;
+	}
+
 	/**
 	 * @return List<Equipment>
 	 * @throws JsonGenerationException
@@ -102,10 +108,11 @@ public class DnfItemRating {
 		boolean check = false;
 		int containOptionNumber = 0;
 		int checkNumber = 0;
+		
 		//어제 아이템등급 %와 오늘받아온 %가 모든 옵션이 다 같다면 아직 Rest쪽에서 업데이트가 안됬으므로 false를 반환하여 재요청을 한다.
 		for(ItemStatus stat : selectStatus){
 			
-			if(Process.containList.contains(stat.getName())) {
+			if(this.containList.contains(stat.getName())) {
 				containOptionNumber += 1;
 				
 				for(ItemStatus receiveStat : receiveStatus) {

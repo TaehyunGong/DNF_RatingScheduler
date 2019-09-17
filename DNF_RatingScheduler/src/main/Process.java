@@ -31,8 +31,10 @@ public class Process {
 	 * @description 모든 모듈을 가지고 프로세스를 진행하는 메소드
 	 */
 	public void process() throws Exception {
+		//DB에 게시글에 뿌려줄 옵션리스트를 가져온다.
+		List<String> containList = dao.selectOptionList(dbConn.getConnection());
 		
-		DnfItemRating dnf = new DnfItemRating();
+		DnfItemRating dnf = new DnfItemRating(containList);
 		List<Equipment> equipList = dao.selectAllEquipmentList(dbConn.getConnection());
 		List<Equipment> yetEquipList = dao.selectYesterStatus(dbConn.getConnection());
 		
@@ -63,8 +65,6 @@ public class Process {
 		//어차피 insert error 나면 자동 rollback 된다.
 		insertToday(dbConn.getConnection(), equipList);
 		
-		//DB에 게시글에 뿌려줄 옵션리스트를 가져온다.
-		List<String> containList = dao.selectOptionList(dbConn.getConnection());
 		naverCafeWriter ncw = new naverCafeWriter(equipList, containList);
 		ncw.cafeWrtier();
 	}

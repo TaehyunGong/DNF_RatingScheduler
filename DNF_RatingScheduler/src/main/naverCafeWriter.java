@@ -41,6 +41,8 @@ public class naverCafeWriter {
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
 		String content = contentHtmlMake(equipList);	//글 본문
 		
+		content += listCalendar(null);
+		
 		//apikey를 가져옴
 		String apiURL = getkey.getKeyBox().get("apiURL");
 		
@@ -51,36 +53,43 @@ public class naverCafeWriter {
 		conn.HttpPostConnection(apiURL, RequestAccessToken(), map);
 	}
 	
+	/**
+	 * @param list
+	 * @return
+	 * @description 등급 캘린더 제작
+	 */
 	public String listCalendar(List list) {
+		htmlBuilder html = new htmlBuilder();
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(cal.DAY_OF_MONTH, 1);
 		int maxDay = cal.getActualMaximum(cal.DAY_OF_MONTH);
 		int startWeek = cal.get(cal.DAY_OF_WEEK);
 
-		StringBuffer html = new StringBuffer();
-		html.append("<table border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5'>");
-		html.append("<tbody>");
-		html.append("<tr bgcolor='#FFFFFF'>");
+		html.tag("table", "border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5' ")
+			.tag("tbody")
+			.tag("tr", "bgcolor='#FFFFFF' ");
 		
 		for(int i=1; i<maxDay+startWeek; i++) {
 			if(startWeek > i){
-				html.append("<td width='84px'></td>");
+				html.tag("td","width='84px' ")
+					.endTag();
 			}else {
-				html.append("<td style='font-size:9pt;font-family:2820189_9;' width='84px'>" + (i+1-startWeek) + "</td>");
+				html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
+					.setText(""+(i+1-startWeek))
+					.endTag();
 			}
 			
 			if(i%7==0) {
-				html.append("</tr>");
-				html.append("<tr bgcolor='#FFFFFF'>");
+				html.endTag()
+				.tag("tr", "bgcolor='#FFFFFF' ");
 			}
 		}
-		html.append("</tr>");
+		html.endTag()
+			.endTag()
+			.endTag();
 		
-		html.append("</tbody>");
-		html.append("</table>");
-		
-		return html.toString();
+		return html.build();
 	}
 	
 	/**

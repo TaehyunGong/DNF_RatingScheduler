@@ -19,6 +19,15 @@ public class naverCafeWriter {
 	httpConnection conn = httpConnection.getInstance(); 
 	propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
 	
+	List<Equipment> equipList = null;
+	List<String> containList = null;
+	
+	// 어차피 장비등급 리스트를 가져와 본문을 작성해야하니 생성자에 필수값으로 가져오도록 한다.
+	public naverCafeWriter(List<Equipment> equipList, List<String> containList) {
+		this.equipList = equipList;
+		this.containList = containList;
+	}
+
 	/**
 	 * @param subject
 	 * @param content
@@ -26,7 +35,7 @@ public class naverCafeWriter {
 	 * @throws SQLException 
 	 * @description 제목과 본문을 map으로 저장후 apikey와 같이 post요청으로 글작성
 	 */
-	public void cafeWrtier(List<Equipment> equipList) throws IOException, SQLException {
+	public void cafeWrtier() throws IOException, SQLException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 테이 등급 ");
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
@@ -183,7 +192,7 @@ public class naverCafeWriter {
 		//필요한 옵션만 가져오도록
 		for(int i=0; i<list.size(); i++) {
 			ItemStatus status = list.get(i);
-			if(Process.containList.contains(status.getName())) {
+			if(this.containList.contains(status.getName())) {
 				maxStat = 0;
 				toDayStat = Integer.parseInt(status.getValue());
 				

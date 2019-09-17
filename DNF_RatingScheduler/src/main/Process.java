@@ -13,7 +13,6 @@ public class Process {
 	DBConnection dbConn = null;
 	DnfItemRatingDao dao = null;
 	propertyGetAPIKEY getkey = null;
-	public static List<String> containList = null;
 	
 	public Process(String path) throws SQLException, ClassNotFoundException {
 		this.getkey = propertyGetAPIKEY.getInstance();
@@ -25,8 +24,6 @@ public class Process {
 												.initConnection();
 		
 		this.dao = DnfItemRatingDao.getInstance();
-		this.containList = dao.selectOptionList(dbConn.getConnection());
-		
 	}
 
 	/**
@@ -66,8 +63,10 @@ public class Process {
 		//어차피 insert error 나면 자동 rollback 된다.
 		insertToday(dbConn.getConnection(), equipList);
 		
-		naverCafeWriter ncw = new naverCafeWriter();
-		ncw.cafeWrtier(equipList);
+		//DB에 게시글에 뿌려줄 옵션리스트를 가져온다.
+		List<String> containList = dao.selectOptionList(dbConn.getConnection());
+		naverCafeWriter ncw = new naverCafeWriter(equipList, containList);
+		ncw.cafeWrtier();
 	}
 	
 	/**

@@ -11,13 +11,18 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import dao.DBConnection;
+import dao.DnfItemRatingDao;
 import vo.Equipment;
 import vo.ItemStatus;
+import vo.RatingCalendar;
 
 public class naverCafeWriter {
 
 	httpConnection conn = httpConnection.getInstance(); 
 	propertyGetAPIKEY getkey = propertyGetAPIKEY.getInstance();
+	DBConnection dbConn = DBConnection.getInstance();
+	DnfItemRatingDao dao = DnfItemRatingDao.getInstance();
 	
 	List<Equipment> equipList = null;
 	List<String> containList = null;
@@ -41,7 +46,7 @@ public class naverCafeWriter {
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
 		String content = contentHtmlMake(equipList);	//글 본문
 		
-		content += listCalendar(null);
+		content += ratingCalendar();
 		
 		//apikey를 가져옴
 		String apiURL = getkey.getKeyBox().get("apiURL");
@@ -56,34 +61,35 @@ public class naverCafeWriter {
 	/**
 	 * @param list
 	 * @return
+	 * @throws SQLException 
 	 * @description 등급 캘린더 제작
 	 */
-	public String listCalendar(List list) {
+	public String ratingCalendar() throws SQLException {
 		htmlBuilder html = new htmlBuilder();
 		
 		Calendar cal = Calendar.getInstance();
-		cal.set(cal.DAY_OF_MONTH, 1);
-		int maxDay = cal.getActualMaximum(cal.DAY_OF_MONTH);
+//		cal.set(cal.DAY_OF_MONTH, 1);
+		
 		int startWeek = cal.get(cal.DAY_OF_WEEK);
-
+		
+		List<RatingCalendar> list = dao.selectCalendarList(dbConn.getConnection(), startWeek+21);
+		System.out.println(list);
+		
 		html.tag("table", "border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5' ")
 			.tag("tbody")
 			.tag("tr", "bgcolor='#FFFFFF' ");
 		
-		for(int i=1; i<maxDay+startWeek; i++) {
-			if(startWeek > i){
-				html.tag("td","width='84px' ")
-					.endTag();
-			}else {
-				html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
-					.setText(""+(i+1-startWeek))
+		for(int i=0; i< (startWeek+21); i++) {
+			RatingCalendar rating = list.get(i);
+			
+			if(i%7==0) {
+				html.tag("tr", "bgcolor='#FFFFFF' ")
 					.endTag();
 			}
 			
-			if(i%7==0) {
-				html.endTag()
-				.tag("tr", "bgcolor='#FFFFFF' ");
-			}
+			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
+			.setText(rating.getYyyymmdd())
+			.endTag();
 		}
 		html.endTag()
 			.endTag()

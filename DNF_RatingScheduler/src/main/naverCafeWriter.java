@@ -73,9 +73,33 @@ public class naverCafeWriter {
 		int startWeek = cal.get(cal.DAY_OF_WEEK);
 		
 		List<RatingCalendar> list = dao.selectCalendarList(dbConn.getConnection(), startWeek+21);
-		System.out.println(list);
 		
 		html.tag("table", "border='0' width='588px' height='40' cellspacing='1' cellpadding='1' bgcolor='#B7BBB5' ")
+			.tag("thead")
+				.tag("tr")
+					.tag("th")
+						.setText("일")
+					.endTag()
+					.tag("th")
+						.setText("월")
+					.endTag()
+					.tag("th")
+						.setText("화")
+					.endTag()
+					.tag("th")
+						.setText("수")
+					.endTag()
+					.tag("th")
+						.setText("목")
+					.endTag()
+					.tag("th")
+						.setText("금")
+					.endTag()
+					.tag("th")
+						.setText("토")
+					.endTag()
+				.endTag()
+			.endTag()
 			.tag("tbody")
 			.tag("tr", "bgcolor='#FFFFFF' ");
 		
@@ -88,7 +112,7 @@ public class naverCafeWriter {
 			}
 			
 			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
-			.setText(rating.getYyyymmdd())
+			.setText(rating.getYyyymmdd()+"<br>"+rating.getItemGradeName()+"<br>"+rating.getMax())
 			.endTag();
 		}
 		html.endTag()

@@ -49,7 +49,7 @@ public class Process {
 				System.out.println("업데이트 완료 - 총 테이 갯수 : " + equipList.size());
 				break;
 			}
-			System.out.println("2초 대기...");
+			System.out.println("2초 대기..."); 
 			Thread.sleep(2000);
 		}
 		

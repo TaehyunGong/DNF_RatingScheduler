@@ -112,12 +112,15 @@ public class naverCafeWriter {
 			}
 			
 			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
+			.tag("b")
 			.setText(rating.getYyyymmdd())
 			.br()
 				.tag("font", "color='"+getRatingColor(rating.getItemGradeName())+"'")
 					.setText(rating.getItemGradeName()+" "+rating.getMax())
 				.endTag()
+			.endTag()
 			.endTag();
+			
 		}
 		html.endTag()
 			.endTag()

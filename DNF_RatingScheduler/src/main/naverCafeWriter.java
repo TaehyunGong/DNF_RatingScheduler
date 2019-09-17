@@ -112,7 +112,11 @@ public class naverCafeWriter {
 			}
 			
 			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
-			.setText(rating.getYyyymmdd()+"<br>"+rating.getItemGradeName()+"<br>"+rating.getMax())
+			.setText(rating.getYyyymmdd())
+			.br()
+				.tag("font", "color='"+getRatingColor(rating.getItemGradeName())+"'")
+					.setText(rating.getItemGradeName()+" "+rating.getMax())
+				.endTag()
 			.endTag();
 		}
 		html.endTag()
@@ -120,6 +124,24 @@ public class naverCafeWriter {
 			.endTag();
 		
 		return html.build();
+	}
+	
+	/**
+	 * @param rating
+	 * @return String
+	 * @description 등급에 따른 색깔 반환
+	 */
+	public String getRatingColor(String rating) {
+		//default 검정
+		String color = "#000000";
+		switch(rating) {
+			case "최상급" : color = "#ffef00"; break;
+			case "상급" : color = "#ffaa00"; break;
+			case "중급" : color = "#3a32c3"; break;
+			case "하급" : color = "#9a9a9a"; break;
+			case "최하급" : color = "#acacac"; break;
+		}
+		return color;
 	}
 	
 	/**
@@ -149,7 +171,7 @@ public class naverCafeWriter {
 		
 		//글 시작전 예시를 간단하게 텍스트로 뿌려줌
 		html.tag("span","style='font-size: 12pt;'")
-			.setText("예시) ")
+			.setText("예) ")
 			.tag("b", "style='color:#ff0000; font-weight: bold;'")
 			.setText("(+n)")
 			.endTag()
@@ -157,7 +179,7 @@ public class naverCafeWriter {
 			.tag("b", "style='color:#009e25; font-weight: bold;'")
 			.setText("(+0)")
 			.endTag()
-			.setText(" : 극옵 대비 차이값,  ")
+			.setText(" : 극옵")
 		.endTag()
 		.hr();
 		

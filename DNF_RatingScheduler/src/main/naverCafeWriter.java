@@ -113,9 +113,9 @@ public class naverCafeWriter {
 			
 			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
 			.tag("b")
-			.setText(rating.getYyyymmdd())
-			.br()
 				.tag("font", "color='"+getRatingColor(rating.getItemGradeName())+"'")
+					.setText(rating.getYyyymmdd())
+					.br()
 					.setText(rating.getItemGradeName()+" "+rating.getMax())
 				.endTag()
 			.endTag()
@@ -138,10 +138,10 @@ public class naverCafeWriter {
 		//default 검정
 		String color = "#000000";
 		switch(rating) {
-			case "최상급" : color = "#ffef00"; break;
-			case "상급" : color = "#ffaa00"; break;
-			case "중급" : color = "#3a32c3"; break;
-			case "하급" : color = "#9a9a9a"; break;
+			case "최상급" : color = "#FFD954"; break;
+			case "상급" : color = "#FFDF00"; break;
+			case "중급" : color = "#518fbb"; break;
+			case "하급" : color = "#808080"; break;
 			case "최하급" : color = "#acacac"; break;
 		}
 		return color;

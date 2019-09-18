@@ -11,6 +11,7 @@ import java.util.Queue;
 
 import vo.Equipment;
 import vo.ItemStatus;
+import vo.RatingCalendar;
 
 public class DnfItemRatingDao {
 
@@ -424,4 +425,44 @@ public class DnfItemRatingDao {
 		return list;
 	}
 	
+	/**
+	 * @param conn
+	 * @return List<String>
+	 * @throws SQLException
+	 * @description RatingCalendar에 뿌려줄 리스트 반환
+	 */
+	public List<RatingCalendar> selectCalendarList(Connection conn, int limit) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//4주치를 뽑기 위해 21 + 현재요일 넘버 가져온다.
+		String sql = "SELECT * FROM ( SELECT   yyyymmdd, itemGradeName, CONCAT(MAX(itemGradeValue),'%') max  FROM ItemGrade  GROUP BY yyyymmdd, itemGradeName  ORDER BY yyyymmdd desc  LIMIT ?) A ORDER BY A.yyyymmdd";
+		
+		ArrayList<RatingCalendar> list = new ArrayList<RatingCalendar>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, limit);
+			
+			rs = ps.executeQuery();
+			
+			RatingCalendar rating = null;
+			while(rs.next()) {
+				rating = new RatingCalendar();
+				rating.setYyyymmdd(rs.getString("yyyymmdd"));
+				rating.setItemGradeName(rs.getString("itemGradeName"));
+				rating.setMax(rs.getString("max"));
+				
+				list.add(rating);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			ps.close();
+			rs.close();
+		}
+		
+		return list;
+	}
 }

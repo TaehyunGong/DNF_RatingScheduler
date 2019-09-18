@@ -114,9 +114,9 @@ public class naverCafeWriter {
 			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
 			.tag("b")
 				.tag("font", "color='"+getRatingColor(rating.getItemGradeName())+"'")
-					.setText(rating.getYyyymmdd())
+					.setText(convertDateFormat(rating.getYyyymmdd()))
 					.br()
-					.setText(rating.getItemGradeName()+" "+rating.getMax())
+					.setText(rating.getItemGradeName()+"("+rating.getMax()+")")
 				.endTag()
 			.endTag()
 			.endTag();
@@ -145,6 +145,16 @@ public class naverCafeWriter {
 			case "최하급" : color = "#acacac"; break;
 		}
 		return color;
+	}
+	
+	/**
+	 * @param date
+	 * @return String
+	 * @description "20190918"와 같은 날짜 문자열을 "09/18" 으로 치환
+	 */
+	public String convertDateFormat(String date) {
+		String formater = date.substring(4, 6) + "/" + date.substring(6, 8);
+		return formater;
 	}
 	
 	/**

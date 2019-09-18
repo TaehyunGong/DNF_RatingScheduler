@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import common.propertyGetAPIKEY;
 import dao.DBConnection;
 import dao.DnfItemRatingDao;
 import vo.Equipment;

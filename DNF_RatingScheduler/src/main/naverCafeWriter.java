@@ -11,6 +11,9 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import common.htmlBuilder;
+import common.httpConnection;
+import common.propertyGetAPIKEY;
 import dao.DBConnection;
 import dao.DnfItemRatingDao;
 import vo.Equipment;

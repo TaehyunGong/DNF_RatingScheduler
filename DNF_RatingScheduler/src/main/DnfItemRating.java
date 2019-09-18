@@ -12,8 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-import dao.DBConnection;
-import dao.DnfItemRatingDao;
+import common.httpConnection;
 import vo.Equipment;
 import vo.ItemStatus;
 

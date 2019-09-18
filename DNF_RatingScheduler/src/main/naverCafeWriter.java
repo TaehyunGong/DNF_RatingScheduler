@@ -76,7 +76,9 @@ public class naverCafeWriter {
 			.tag("thead")
 				.tag("tr")
 					.tag("th")
-						.setText("일")
+						.tag("font","style='color:#FF0000; font-weight: bold;' ")
+							.setText("일")
+						.endTag()
 					.endTag()
 					.tag("th")
 						.setText("월")
@@ -94,7 +96,9 @@ public class naverCafeWriter {
 						.setText("금")
 					.endTag()
 					.tag("th")
-						.setText("토")
+						.tag("font", "style='color:#0000FF; font-weight: bold;' ")
+							.setText("토")
+						.endTag()
 					.endTag()
 				.endTag()
 			.endTag()
@@ -109,7 +113,7 @@ public class naverCafeWriter {
 					.endTag();
 			}
 			
-			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px' ")
+			html.tag("td","style='font-size:9pt;font-family:2820189_9;' width='84px'; ")
 			.tag("b")
 				.tag("font", "color='"+getRatingColor(rating.getItemGradeName())+"'")
 					.setText(convertDateFormat(rating.getYyyymmdd()))

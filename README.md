@@ -46,7 +46,7 @@
 ## feature/*
 * 20190823 - MariaDB를 구축하여 DB연동. 매일 정시마다 업데이트된 데이터를 INSERT, 카페 글에선 극옵션일 경우 초록색으로 변경하였다.
 
-* 20190917 - 하단의 Rating Calendar 추가완료, common 디렉토리 생성 후 공통 라이브러리를 
+* 20190918 - 매일마다 업데이트 되는 Rating Calendar 추가완료, common 디렉토리 생성 후 공통 라이브러리를 분리화
 ![calendar](https://user-images.githubusercontent.com/38848719/65095258-71285c80-d9fb-11e9-972f-8cb5adfc3472.PNG)
 
 

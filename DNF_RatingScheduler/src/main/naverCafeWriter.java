@@ -46,8 +46,6 @@ public class naverCafeWriter {
 		String subject = sdf.format(new Date()) + equipList.get(0).getItemGradeName() + "(" + getItemMaxRating(equipList) + "%)";	//글 제목
 		String content = contentHtmlMake(equipList);	//글 본문
 		
-		content += ratingCalendar();
-		
 		//apikey를 가져옴
 		String apiURL = getkey.getKeyBox().get("apiURL");
 		
@@ -139,7 +137,7 @@ public class naverCafeWriter {
 		String color = "#000000";
 		switch(rating) {
 			case "최상급" : color = "#FFD954"; break;
-			case "상급" : color = "#FFDF00"; break;
+			case "상급" : color = "#dbc316"; break;
 			case "중급" : color = "#518fbb"; break;
 			case "하급" : color = "#808080"; break;
 			case "최하급" : color = "#acacac"; break;
@@ -234,6 +232,9 @@ public class naverCafeWriter {
 		
 		//네오플 BI 이미지 삽입
 		html.br(2)
+		// 캘린더 추가
+		.setText(ratingCalendar())
+		.br(2)
 		.tag("a","href='http://developers.neople.co.kr' target='_blank'")
 		.tag("img","src='https://developers.neople.co.kr/img/logo_t1.png' alt='Neople 오픈 API' width='50%'")
 		.endTag()

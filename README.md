@@ -46,7 +46,9 @@
 ## feature/*
 * 20190823 - MariaDB를 구축하여 DB연동. 매일 정시마다 업데이트된 데이터를 INSERT, 카페 글에선 극옵션일 경우 초록색으로 변경하였다.
 
-* 20190917 - 하단의 Rating Calendar 개발중
+* 20190917 - 하단의 Rating Calendar 추가완료, common 디렉토리 생성 후 공통 라이브러리를 
+![calendar](https://user-images.githubusercontent.com/38848719/65095258-71285c80-d9fb-11e9-972f-8cb5adfc3472.PNG)
+
 
 ## hotfix
 20190826 - DNF Develop 상점 등급 rest 데이터 00시에 정확히 모든 데이터가 업데이트가 안되는 것으로 확인;

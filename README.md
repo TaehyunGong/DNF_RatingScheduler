@@ -40,6 +40,8 @@
 더이상의 **추가 작업**을 없을 것이며, 간간히 오류정도만 잡아줄 것이다.
 만약 반응이 좋다면 다른 무료 서버로 이관하여 이 서비스만 연장할것 이다.
 
+20191004 - NCloud 기간 만료로 인해 AWS EC2 로 서버 이관 완료.
+
 ## ScreenShot
 ![cafeContent](https://user-images.githubusercontent.com/38848719/64661401-627ff980-d47f-11e9-9920-cbdfa43b100e.PNG)
 
